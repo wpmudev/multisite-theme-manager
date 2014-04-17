@@ -1,0 +1,8 @@
+Plugin Name: Multisite Theme Manager
+Author: WPMUDEV
+Lead developer: Maniu
+
+== Changelog ==
+
+= 1.0.0 =
+* Initial Release

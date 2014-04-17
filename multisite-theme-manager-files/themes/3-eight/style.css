@@ -1,0 +1,20 @@
+.wrap .page-description {
+	clear: both;
+}
+.theme-categories {
+	margin-bottom: 20px;
+	padding: 15px;
+	background: #fff;
+	background: rgba(255,255,255,.65);
+	border: 1px solid #dedede;
+	-webkit-box-shadow: 0 1px 1px -1px rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px -1px rgba(0,0,0,.1);
+	line-height: 28px;
+}
+.theme-categories-label {
+	font-weight: 300;
+	font-size: 15px;	
+}
+.theme-categories .button {
+	margin: 0 5px;
+}

@@ -1,0 +1,63 @@
+body.settings_page_multisite-theme-manager .configuration-steps {
+	font-size: 18px;
+	font-weight: bold;
+}
+body.settings_page_multisite-theme-manager .configuration-steps img {
+	vertical-align: middle;
+	margin:0 10px 10px 5px;
+}
+table.plugins {
+	display: none;
+}
+table.plugins .theme-image {
+	width: 100px;
+	height: 75px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAALElEQVQYGWO8d+/efwYkoKioiMRjYGBC4WHhUK6A8T8QIJt8//59ZC493AAAQssKpBK4F5AAAAAASUVORK5CYII=');
+	background-position: center center;
+}
+.edit-category-save-button, .add-category-button {
+	margin: 0 0 0 5px !important;
+}
+.theme-new-edit-category {
+	width: 100%;
+}
+.inline-edit-col label {
+	clear: both;
+}
+.inline-edit-row fieldset label span.title {
+	width: 11em;
+}
+.inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 11em;
+}	
+.setting-disabled {
+	cursor: default;
+}
+.setting-disabled span.title {
+	color: #999;
+}
+.setting-disabled span.input-text-wrap input, .setting-disabled textarea {
+	background: #ededed;
+}
+.inline-edit-row fieldset label textarea.theme_description {
+	height: 6.5em;
+}
+.inline-edit-row p.setup-mode-reminder {
+	text-align: center;
+	color: red;
+	clear: both;
+	padding: 1.5em .5em 0 .5em;
+	margin: .5em 0 0;
+}
+
+@media all and (max-width: 782px) {
+	#wpbody-content .wp-list-table.plugins th.column-description, #wpbody-content .wp-list-table.plugins th.column-image {
+	display: none;
+	}
+	.inline-edit-row fieldset label span.title {
+		width: auto;
+	}
+	.inline-edit-row fieldset label span.input-text-wrap {
+		margin: 0;
+	}	
+}
