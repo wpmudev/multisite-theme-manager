@@ -39,7 +39,7 @@
 					<select name="wmd_prettythemes_options[theme]">
 						<?php $this->the_select_options($select_options, $this->options['theme']); ?>
 					</select>
-					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/upload/prettythemes/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/pretty-themes/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
+					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/upload/prettythemes/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/multisite-theme-manager/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
 				</td>
 			</tr>
 

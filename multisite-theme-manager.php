@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Multisite Theme Manager
-Plugin URI: http://premium.wpmudev.org/project/pretty-themes/
+Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
 Version: 1.0
 Network: true
 Text Domain: wmd_prettythemes
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org/
-WDP ID: 0
+WDP ID: 883804
 */
 
 /*
@@ -127,7 +127,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			'themes_options' => array('author_link' => '1', 'custom_link' => '1', 'tags' => '1', 'version' => '1'),
 			'themes_auto_screenshots_by_name' => '0',
 			'themes_page_title' => __('Themes', 'wmd_prettythemes'),
-			'themes_page_description' => __('Themes lets you change the look of your site completly! Here is a list of what we have available for you.', 'wmd_prettythemes'),
+			'themes_page_description' => __('Themes let you change the look of your site completly! Here is a list of what we have available for you.', 'wmd_prettythemes'),
 			'themes_link_label' => __('Learn more about theme', 'wmd_prettythemes')
 		);
 
@@ -235,7 +235,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 	}
 
 	function register_scripts_styles_admin($hook) {
-		global $wp_version;
+		global $pagenow;
 
 		//register scripts and styles for theme page
 		if( $hook == 'appearance_page_multisite-theme-manager' ) {
@@ -313,9 +313,24 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 			wp_enqueue_media();
 		}
-		elseif($hook == 'settings_page_multisite-theme-manager') {
-			wp_register_style('wmd-prettythemes-network-admin', $this->plugin_dir_url.'multisite-theme-manager-files/css/network-admin.css');
-			wp_enqueue_style('wmd-prettythemes-network-admin');			
+		//load stuff to replace details on customize page
+		elseif( $pagenow == 'customize.php') {
+			$theme = 0;
+			$themes_custom_data_ready = $this->get_converted_themes_data_for_js($this->get_merged_themes_custom_data());
+
+			if(isset($_REQUEST['theme']))
+				$theme_path = $_REQUEST['theme'];
+			else
+				$theme_path = get_stylesheet();
+
+			if(isset($theme_path) && isset($themes_custom_data_ready[$theme_path]))
+				$theme = $themes_custom_data_ready[$theme_path];
+
+			if($theme) {
+				wp_register_script('wmd-prettythemes-customize', $this->plugin_dir_url.'multisite-theme-manager-files/js/customize.js', false, true);
+				wp_enqueue_script('wmd-prettythemes-customize');
+				wp_localize_script( 'wmd-prettythemes-customize', 'wmd_msreader', array('current_theme' => $theme) );
+			}
 		}
 	}
 

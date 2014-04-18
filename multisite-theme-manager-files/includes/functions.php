@@ -32,6 +32,10 @@ class WMD_PrettyThemes_Functions {
 				$pagenow == 'themes.php' &&
 				is_network_admin()
 			)
+			||
+			(
+				$pagenow == 'customize.php'
+			)
 		)
 			return true;
 		else
