@@ -63,7 +63,7 @@ foreach ( $this->themes_data as $theme ) :
 </div><!-- .wrap -->
 
 <script id="tmpl-category" type="text/template">
-	<span data-sort="{{ data.name }}" class="theme-category button button-secondary">{{ data[0] }}</span>
+	<a data-sort="{{ data.name }}" class="theme-section theme-category" href="#">{{ data[0] }}</a>
 </script>
 
 <script id="tmpl-theme" type="text/template">

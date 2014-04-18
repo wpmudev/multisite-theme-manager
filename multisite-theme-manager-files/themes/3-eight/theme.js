@@ -135,8 +135,8 @@ themes.Collection = Backbone.Collection.extend({
   // and triggers an update event
   doSearch: function( value ) {
     //reset category to "all" on search
-    $('.theme-categories .button').removeClass('button-primary');
-    $('[data-category="all"]').addClass('button-primary');
+    $('.theme-categories .theme-category').removeClass('current');
+    $('[data-category="all"]').addClass('current');
 
     // Don't do anything if we've already done this search
     // Useful because the Search handler fires multiple times per keystroke
@@ -165,10 +165,12 @@ themes.Collection = Backbone.Collection.extend({
   // Controls viewing themes from category on the current theme collection
   // and triggers an update event
   doCategory: function( value ) {
+    event.preventDefault();
+    
     //Sets up class for active category button
     $('#theme-search-input').val('');
-    $('.theme-categories .button').removeClass('button-primary');
-    $('[data-category="'+ value + '"]').addClass('button-primary');
+    $('.theme-categories .theme-category').removeClass('current');
+    $('[data-category="'+ value + '"]').addClass('current');
 
     // Don't do anything if we've already done this search
     // Useful because the Search handler fires multiple times per keystroke
@@ -777,10 +779,10 @@ themes.view.Search = wp.Backbone.View.extend({
 themes.view.Categories = wp.Backbone.View.extend({
 
   tagName: 'div',
-  className: 'theme-categories',
+  className: 'theme-categories theme-navigation',
 
   events: {
-    'click span':  'categories'
+    'click a':  'categories'
   },
 
   render: function() {
@@ -789,8 +791,8 @@ themes.view.Categories = wp.Backbone.View.extend({
     $.each(categories, function( index, value ) {
       var add_class = '';
       if(index == 'all')
-        add_class = ' button-primary';
-      el.append( $.parseHTML( '<span data-category="'+ index +'" class="theme-category button button-secondary'+ add_class +'">' + value + '</span>' ) );
+        add_class = ' current';
+      el.append( $.parseHTML( '<a data-category="'+ index +'" class="theme-section theme-category'+ add_class +'" href="#">' + value + '</a>' ) );
     });
   },
 

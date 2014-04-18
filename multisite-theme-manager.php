@@ -127,7 +127,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			'themes_options' => array('author_link' => '1', 'custom_link' => '1', 'tags' => '1', 'version' => '1'),
 			'themes_auto_screenshots_by_name' => '0',
 			'themes_page_title' => __('Themes', 'wmd_prettythemes'),
-			'themes_page_description' => __('Themes let you change the look of your site completly! Here is a list of what we have available for you.', 'wmd_prettythemes'),
+			'themes_page_description' => '',
 			'themes_link_label' => __('Learn more about theme', 'wmd_prettythemes')
 		);
 
