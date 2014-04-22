@@ -127,7 +127,7 @@
 				<td>
 					<a href="<?php echo add_query_arg(array('prettythemes_action' => 'export', '_wpnonce' => $prettythemes_options_nonce)); ?>" class="button"><?php _e('Download Export File', 'wmd_prettythemes') ?></a>
 					<p class="description">
-						<?php _e('Export data and settings for later import or use as a configuration file. You can put exported file named "config.xml" into "wp-content/upload/prettythemes/" folder to autoload data and settings.', 'wmd_prettythemes') ?> <small><?php _e('Keep in mind that data from current config file (if exists) will also be exported.', 'wmd_prettythemes') ?></small>
+						<?php _e('Export data and settings for later import or use as a configuration file. You can put exported file named "config.xml" into "wp-content/upload/multisite-theme-manager/" folder to autoload data and settings.', 'wmd_prettythemes') ?> <small><?php _e('Keep in mind that data from current config file (if exists) will also be exported.', 'wmd_prettythemes') ?></small>
 					</p>
 				</td>
 			</tr>
