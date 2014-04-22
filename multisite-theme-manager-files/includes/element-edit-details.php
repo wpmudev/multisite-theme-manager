@@ -107,7 +107,7 @@
 			</fieldset>
 
 			<?php if($this->options['setup_mode']) {?>
-				<p class="submit setup-mode-reminder"><?php printf(__('You are in setup mode, go to <a href="%s">Pretty Theme Settings</a> to activate the changes across all sites.', 'wmd_prettythemes'), admin_url('network/settings.php?page=multisite-theme-manager.php'));?></p>
+				<p class="submit setup-mode-reminder"><?php printf(__('You are in setup mode, go to <a href="%s">Multisite Theme Manager Settings</a> to activate the changes across all sites.', 'wmd_prettythemes'), admin_url('network/settings.php?page=multisite-theme-manager.php'));?></p>
 			<?php } ?>
 
 			<p class="submit inline-edit-save">

@@ -39,7 +39,7 @@
 					<select name="wmd_prettythemes_options[theme]">
 						<?php $this->the_select_options($select_options, $this->options['theme']); ?>
 					</select>
-					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/upload/prettythemes/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/multisite-theme-manager/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
+					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/upload/multisite-theme-manager/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/multisite-theme-manager/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
 				</td>
 			</tr>
 
@@ -71,7 +71,7 @@
 					<select name="wmd_prettythemes_options[themes_auto_screenshots_by_name]">
 						<?php $this->the_select_options(array(), $this->options['themes_auto_screenshots_by_name']); ?>
 					</select>
-					<p class="description"><?php _e('If the featured image for a theme has not been set and there is an image located in "wp-content/upload/prettythemes/screenshots/" with the correct name (example: theme location - "wp-content/themes/twentythirteen", image file - "twentythirteen.png".), it will autoload. Only PNG files will work in this method', 'wmd_prettythemes') ?></p>
+					<p class="description"><?php _e('If the featured image for a theme has not been set and there is an image located in "wp-content/upload/multisite-theme-manager/screenshots/" with the correct name (example: theme location - "wp-content/themes/twentythirteen", image file - "twentythirteen.png".), it will autoload. Only PNG files will work in this method', 'wmd_prettythemes') ?></p>
 				</td>
 			</tr>
 		</table>

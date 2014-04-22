@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Multisite Theme Manager\n"
-"POT-Creation-Date: 2014-04-18 11:28+0100\n"
-"PO-Revision-Date: 2014-04-18 11:28+0100\n"
+"POT-Creation-Date: 2014-04-22 09:48+0100\n"
+"PO-Revision-Date: 2014-04-22 09:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: Incsub\n"
 "Language: en\n"
@@ -120,8 +120,8 @@ msgstr ""
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager-files/includes/element-edit-details.php:110
 #, php-format
 msgid ""
-"You are in setup mode, go to <a href=\"%s\">Pretty Theme Settings</a> to "
-"activate the changes across all sites."
+"You are in setup mode, go to <a href=\"%s\">Multisite Theme Manager "
+"Settings</a> to activate the changes across all sites."
 msgstr ""
 
 #: C:\Programs
@@ -181,8 +181,8 @@ msgstr ""
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager-files/includes/page-network-admin.php:42
 msgid ""
 "Choose the theme that you want to use to display your theme page. You can "
-"add your own themes into \"wp-content/upload/prettythemes/your-theme/\" "
-"folder. (Tip: duplicate the default theme from \"wp-content/plugins/"
+"add your own themes into \"wp-content/upload/multisite-theme-manager/your-"
+"theme/\" folder. (Tip: duplicate the default theme from \"wp-content/plugins/"
 "multisite-theme-manager/multisite-theme-manager-files/themes/\" to get "
 "started.)"
 msgstr ""
@@ -211,10 +211,10 @@ msgstr ""
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager-files/includes/page-network-admin.php:74
 msgid ""
 "If the featured image for a theme has not been set and there is an image "
-"located in \"wp-content/upload/prettythemes/screenshots/\" with the correct "
-"name (example: theme location - \"wp-content/themes/twentythirteen\", image "
-"file - \"twentythirteen.png\".), it will autoload. Only PNG files will work "
-"in this method"
+"located in \"wp-content/upload/multisite-theme-manager/screenshots/\" with "
+"the correct name (example: theme location - \"wp-content/themes/"
+"twentythirteen\", image file - \"twentythirteen.png\".), it will autoload. "
+"Only PNG files will work in this method"
 msgstr ""
 
 #: C:\Programs
