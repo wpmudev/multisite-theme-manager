@@ -39,7 +39,7 @@
 					<select name="wmd_prettythemes_options[theme]">
 						<?php $this->the_select_options($select_options, $this->options['theme']); ?>
 					</select>
-					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/upload/multisite-theme-manager/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/multisite-theme-manager/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
+					<p class="description"><?php _e('Choose the theme that you want to use to display your theme page. You can add your own themes into "wp-content/uploads/multisite-theme-manager/your-theme/" folder. (Tip: duplicate the default theme from "wp-content/plugins/multisite-theme-manager/multisite-theme-manager-files/themes/" to get started.)', 'wmd_prettythemes') ?></p>
 				</td>
 			</tr>
 
@@ -71,7 +71,7 @@
 					<select name="wmd_prettythemes_options[themes_auto_screenshots_by_name]">
 						<?php $this->the_select_options(array(), $this->options['themes_auto_screenshots_by_name']); ?>
 					</select>
-					<p class="description"><?php _e('If the featured image for a theme has not been set and there is an image located in "wp-content/upload/multisite-theme-manager/screenshots/" with the correct name (example: theme location - "wp-content/themes/twentythirteen", image file - "twentythirteen.png".), it will autoload. Only PNG files will work in this method', 'wmd_prettythemes') ?></p>
+					<p class="description"><?php _e('If the featured image for a theme has not been set and there is an image located in "wp-content/uploads/multisite-theme-manager/screenshots/" with the correct name (example: theme location - "wp-content/themes/twentythirteen", image file - "twentythirteen.png".), it will autoload. Only PNG files will work in this method', 'wmd_prettythemes') ?></p>
 				</td>
 			</tr>
 		</table>
@@ -127,7 +127,7 @@
 				<td>
 					<a href="<?php echo add_query_arg(array('prettythemes_action' => 'export', '_wpnonce' => $prettythemes_options_nonce)); ?>" class="button"><?php _e('Download Export File', 'wmd_prettythemes') ?></a>
 					<p class="description">
-						<?php _e('Export data and settings for later import or use as a configuration file. You can put exported file named "config.xml" into "wp-content/upload/multisite-theme-manager/" folder to autoload data and settings.', 'wmd_prettythemes') ?> <small><?php _e('Keep in mind that data from current config file (if exists) will also be exported.', 'wmd_prettythemes') ?></small>
+						<?php _e('Export data and settings for later import or use as a configuration file. You can put exported file named "config.xml" into "wp-content/uploads/multisite-theme-manager/" folder to autoload data and settings.', 'wmd_prettythemes') ?> <small><?php _e('Keep in mind that data from current config file (if exists) will also be exported.', 'wmd_prettythemes') ?></small>
 					</p>
 				</td>
 			</tr>
