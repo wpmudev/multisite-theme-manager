@@ -25,9 +25,9 @@ foreach ( $this->themes_data as $theme ) :
 	<?php } else { ?>
 		<div class="theme-screenshot blank"></div>
 	<?php } ?>
-	<span class="more-details" id="<?php echo $aria_action; ?>"><?php _e( 'Theme Details' ); ?></span>
+	<span class="more-details" id="<?php echo $aria_action; ?>"><?php _e( 'Theme Details', 'wmd_multisitethememanager' ); ?></span>
 	<?php if($theme['author']) { ?>
-	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
+	<div class="theme-author"><?php printf( __( 'By %s', 'wmd_multisitethememanager' ), $theme['author'] ); ?></div>
 	<?php } ?>
 
 	<?php if ( $theme['active'] ) { ?>
@@ -40,18 +40,18 @@ foreach ( $this->themes_data as $theme ) :
 
 	<?php if ( $theme['active'] ) { ?>
 		<?php if ( $theme['actions']['customize'] ) { ?>
-			<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize' ); ?></a>
+			<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize', 'wmd_multisitethememanager' ); ?></a>
 		<?php } ?>
 	<?php } else { ?>
-		<a class="button button-primary activate" href="<?php echo $theme['actions']['activate']; ?>"><?php _e( 'Activate' ); ?></a>
-		<a class="button button-secondary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
-		<a class="button button-secondary hide-if-customize" href="<?php echo $theme['actions']['preview']; ?>"><?php _e( 'Preview' ); ?></a>
+		<a class="button button-primary activate" href="<?php echo $theme['actions']['activate']; ?>"><?php _e( 'Activate', 'wmd_multisitethememanager' ); ?></a>
+		<a class="button button-secondary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview', 'wmd_multisitethememanager' ); ?></a>
+		<a class="button button-secondary hide-if-customize" href="<?php echo $theme['actions']['preview']; ?>"><?php _e( 'Preview', 'wmd_multisitethememanager' ); ?></a>
 	<?php } ?>
 
 	</div>
 
 	<?php if ( $theme['hasUpdate'] ) { ?>
-		<div class="theme-update"><?php _e( 'Update Available' ); ?></div>
+		<div class="theme-update"><?php _e( 'Update Available', 'wmd_multisitethememanager' ); ?></div>
 	<?php } ?>
 </div>
 <?php endforeach; ?>
@@ -74,9 +74,9 @@ foreach ( $this->themes_data as $theme ) :
 	<# } else { #>
 		<div class="theme-screenshot blank"></div>
 	<# } #>
-	<span class="more-details" id="{{ data.id }}-action"><?php _e( 'Theme Details' ); ?></span>
+	<span class="more-details" id="{{ data.id }}-action"><?php _e( 'Theme Details', 'wmd_multisitethememanager' ); ?></span>
 	<# if ( data.author ) { #>
-		<div class="theme-author"><?php printf( __( '%s' ), '{{{ data.author }}}' ); ?></div>
+		<div class="theme-author"><?php printf( __( '%s', 'wmd_multisitethememanager' ), '{{{ data.author }}}' ); ?></div>
 	<# } #>
 
 	<# if ( data.active ) { #>
@@ -89,12 +89,12 @@ foreach ( $this->themes_data as $theme ) :
 
 	<# if ( data.active ) { #>
 		<# if ( data.actions.customize ) { #>
-			<a class="button button-primary customize load-customize hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize' ); ?></a>
+			<a class="button button-primary customize load-customize hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize', 'wmd_multisitethememanager' ); ?></a>
 		<# } #>
 	<# } else { #>
 		<a class="button button-primary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
-		<a class="button button-secondary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
-		<a class="button button-secondary hide-if-customize" href="{{{ data.actions.preview }}}"><?php _e( 'Preview' ); ?></a>
+		<a class="button button-secondary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview', 'wmd_multisitethememanager' ); ?></a>
+		<a class="button button-secondary hide-if-customize" href="{{{ data.actions.preview }}}"><?php _e( 'Preview', 'wmd_multisitethememanager' ); ?></a>
 	<# } #>
 
 	</div>
@@ -108,9 +108,9 @@ foreach ( $this->themes_data as $theme ) :
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap">
 		<div class="theme-header">
-			<button alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></button>
-			<button alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></button>
-			<button alt="<?php _e( 'Close overlay' ); ?>" class="close dashicons dashicons-no"></button>
+			<button alt="<?php _e( 'Show previous theme', 'wmd_multisitethememanager' ); ?>" class="left dashicons dashicons-no"></button>
+			<button alt="<?php _e( 'Show next theme', 'wmd_multisitethememanager' ); ?>" class="right dashicons dashicons-no"></button>
+			<button alt="<?php _e( 'Close overlay', 'wmd_multisitethememanager' ); ?>" class="close dashicons dashicons-no"></button>
 		</div>
 		<div class="theme-about">
 			<div class="theme-screenshots">
@@ -123,16 +123,16 @@ foreach ( $this->themes_data as $theme ) :
 
 			<div class="theme-info">
 				<# if ( data.active ) { #>
-					<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+					<span class="current-label"><?php _e( 'Current Theme', 'wmd_multisitethememanager' ); ?></span>
 				<# } #>
 				<h3 class="theme-name">
 					{{{ data.name }}}
 					<# if ( data.version ) { #>
-						<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span>
+						<span class="theme-version"><?php printf( __( 'Version: %s', 'wmd_multisitethememanager' ), '{{{ data.version }}}' ); ?></span>
 					<# } #>
 				</h3>
 				<# if ( data.authorAndUri ) { #>
-				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h4>
+				<h4 class="theme-author"><?php printf( __( 'By %s', 'wmd_multisitethememanager' ), '{{{ data.authorAndUri }}}' ); ?></h4>
 				<# } #>
 				<# if ( data.customLinkAndUri ) { #>
 				<h4 class="theme-author">{{{ data.customLinkAndUri }}}</h4>
@@ -140,41 +140,41 @@ foreach ( $this->themes_data as $theme ) :
 
 				<# if ( data.hasUpdate ) { #>
 				<div class="theme-update-message">
-					<h4 class="theme-update"><?php _e( 'Update Available' ); ?></h4>
+					<h4 class="theme-update"><?php _e( 'Update Available', 'wmd_multisitethememanager' ); ?></h4>
 					{{{ data.update }}}
 				</div>
 				<# } #>
 				<p class="theme-description">{{{ data.description }}}</p>
 
 				<# if ( data.parent ) { #>
-					<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
+					<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.', 'wmd_multisitethememanager' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
 				<# } #>
 
 				<# if ( data.categories ) { #>
-					<p class="theme-tags"><span><?php _e( 'Categories:' ); ?></span> {{{ data.categories }}}</p>
+					<p class="theme-tags"><span><?php _e( 'Categories:', 'wmd_multisitethememanager' ); ?></span> {{{ data.categories }}}</p>
 				<# } #>
 
 				<# if ( data.tags ) { #>
-					<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> {{{ data.tags }}}</p>
+					<p class="theme-tags"><span><?php _e( 'Tags:', 'wmd_multisitethememanager' ); ?></span> {{{ data.tags }}}</p>
 				<# } #>
 			</div>
 		</div>
 
 		<div class="theme-actions">
 			<div class="active-theme">
-				<a href="{{{ data.actions.customize }}}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+				<a href="{{{ data.actions.customize }}}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize', 'wmd_multisitethememanager' ); ?></a>
 				<?php echo implode( ' ', $current_theme_actions ); ?>
 			</div>
 			<div class="inactive-theme">
 				<# if ( data.actions.activate ) { #>
-					<a href="{{{ data.actions.activate }}}" class="button button-primary activate"><?php _e( 'Activate' ); ?></a>
+					<a href="{{{ data.actions.activate }}}" class="button button-primary activate"><?php _e( 'Activate', 'wmd_multisitethememanager' ); ?></a>
 				<# } #>
-				<a href="{{{ data.actions.customize }}}" class="button button-secondary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
-				<a href="{{{ data.actions.preview }}}" class="button button-secondary hide-if-customize"><?php _e( 'Preview' ); ?></a>
+				<a href="{{{ data.actions.customize }}}" class="button button-secondary load-customize hide-if-no-customize"><?php _e( 'Live Preview', 'wmd_multisitethememanager' ); ?></a>
+				<a href="{{{ data.actions.preview }}}" class="button button-secondary hide-if-customize"><?php _e( 'Preview', 'wmd_multisitethememanager' ); ?></a>
 			</div>
 
 			<# if ( ! data.active && data.actions['delete'] ) { #>
-				<a href="{{{ data.actions['delete'] }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+				<a href="{{{ data.actions['delete'] }}}" class="button button-secondary delete-theme"><?php _e( 'Delete', 'wmd_multisitethememanager' ); ?></a>
 			<# } #>
 		</div>
 	</div>

@@ -3,9 +3,9 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.0
+Version: 1.0.0.1
 Network: true
-Text Domain: wmd_prettythemes
+Text Domain: wmd_multisitethememanager
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org/
 WDP ID: 883804
@@ -126,9 +126,9 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			'theme' => 'standard/3-eight',
 			'themes_options' => array('author_link' => '1', 'custom_link' => '1', 'tags' => '1', 'version' => '1'),
 			'themes_auto_screenshots_by_name' => '0',
-			'themes_page_title' => __('Themes', 'wmd_prettythemes'),
+			'themes_page_title' => __('Themes', 'wmd_multisitethememanager'),
 			'themes_page_description' => '',
-			'themes_link_label' => __('Learn more about theme', 'wmd_prettythemes')
+			'themes_link_label' => __('Learn more about theme', 'wmd_multisitethememanager')
 		);
 
 		//load options
@@ -137,7 +137,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
     function do_activation() {
     	if(!is_multisite())
-    		trigger_error(sprintf(__('Multisite Theme Manager only works in multisite configuration. You can read more about it <a href="%s" target="_blank">here</a>.', 'wmd_prettythemes'), 'http://codex.wordpress.org/Create_A_Network'),E_USER_ERROR);
+    		trigger_error(sprintf(__('Multisite Theme Manager only works in multisite configuration. You can read more about it <a href="%s" target="_blank">here</a>.', 'wmd_multisitethememanager'), 'http://codex.wordpress.org/Create_A_Network'),E_USER_ERROR);
     	else {
 	        //create folder for custom themes
 	        if (!$this->config_version && !is_dir($this->plugin_dir_custom)) {
@@ -159,7 +159,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		global $pagenow;
 
 		//delete_site_option( 'wmd_prettythemes_options');
-		load_plugin_textdomain( 'wmd_prettythemes', false, $this->plugin_rel.'languages/' );
+		load_plugin_textdomain( 'wmd_multisitethememanager', false, $this->plugin_rel.'languages/' );
 	}
 
 	function init(){
@@ -265,16 +265,16 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				'settings' => array(
 					'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
 					'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
-					'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
+					'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete.", 'wmd_multisitethememanager' ),
 					'root'          => parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ).'?page=multisite-theme-manager.php',
 					'theme'         => esc_html( $theme ),
 					'search'        => esc_html( $search ),
 					'category'        => esc_html( $category ),
 				),
 			 	'l10n' => array(
-			 		'search'  => __( 'Search Installed Themes' ),
-			 		'searchPlaceholder' => __( 'Search installed themes...' ),
-			 		'categories' => __( 'Categories:' ),
+			 		'search'  => __( 'Search Installed Themes', 'wmd_multisitethememanager' ),
+			 		'searchPlaceholder' => __( 'Search installed themes...', 'wmd_multisitethememanager' ),
+			 		'categories' => __( 'Categories:', 'wmd_multisitethememanager' ),
 			  	),
 			) );
 
@@ -299,13 +299,13 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				'admin_url' => admin_url( '', $protocol ),
 				'prettythemes_url' => $this->plugin_dir_url,
 				'theme_url' => $this->current_theme_details['dir_url'],
-				'image' => __('Custom Image', 'wmd_prettythemes'),
-				'edit_code' => __('Edit Code', 'wmd_prettythemes'),
-				'orginal_description' => __('Show/hide orginal description', 'wmd_prettythemes'),
+				'image' => __('Custom Image', 'wmd_multisitethememanager'),
+				'edit_code' => __('Edit Code', 'wmd_multisitethememanager'),
+				'orginal_description' => __('Show/hide orginal description', 'wmd_multisitethememanager'),
 				'default_custom_url_label' => $this->options['themes_link_label'],
-				'categories' => __('Categories', 'wmd_prettythemes'),
-				'choose_screenshot' => __('Choose image for theme screenshot (recommended size: 880px on 660px)', 'wmd_prettythemes'),
-				'select_image' => __('Select Image', 'wmd_prettythemes'),
+				'categories' => __('Categories', 'wmd_multisitethememanager'),
+				'choose_screenshot' => __('Choose image for theme screenshot (recommended size: 880px on 660px)', 'wmd_multisitethememanager'),
+				'select_image' => __('Select Image', 'wmd_multisitethememanager'),
 				'theme_details' => $themes_custom_data_ready,
 				'theme_categories' => $themes_categories_ready
 			);
@@ -369,15 +369,15 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		    $screen->add_help_tab( 
 		    	array(
 			        'id'	=> 'edit_details',
-			        'title'	=> __('Editing Theme Details', 'wmd_prettythemes'),
+			        'title'	=> __('Editing Theme Details', 'wmd_multisitethememanager'),
 			        'content'	=> '
-			        	<p>'.sprintf(__( 'You can edit theme details for each theme by clicking "Edit Details". All new details will be visible on <a href="%s">the themes page</a> available for all network sites. It is also possible to control aditional settings on "Network Admin" > "Settings" > "<a href="%s">Multisite Theme Manager</a>.','wmd_prettythemes'),  admin_url('themes.php?page=multisite-theme-manager.php'), admin_url('network/settings.php?page=multisite-theme-manager.php')).'</p>
-			        	<p>'.__( '<strong>Name</strong> - Replace the name of the theme with one of your choice. Leave blank to use the original name.','wmd_prettythemes').'</p>
-			        	<p>'.__( '<strong>Custom URL</strong> - Create an external theme link to any URL of your choice, for support documentation for example.','wmd_prettythemes').'</p>
-			        	<p>'.__( 'Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_prettythemes').'</p>
-			        	<p>'.__( '<strong>Image URL</strong> - Set image for this theme. You can choose an image from your media gallery or upload it to "wp-content/uploads/multisite-theme-manager/screenshots/" and input file name as "Custom URL". Alternatively, a file with the correct name will be autoloaded even when this field is empty (example: theme location - "wp-content/themes/twentythirteen/", image file - "akismet.png". Only PNG files will work with this method.). "Auto load screenshot with correct name" setting needs to be set to true for it to work. Recommended dimensions are 880px on 660px.','wmd_prettythemes').'</p>
-			        	<p>'.__( '<strong>Categories</strong> - Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.','wmd_prettythemes').'</p>
-			        	<p>'.__( '<strong>Description</strong> - Replace the original description of the theme with your own. Leave blank to use the original.','wmd_prettythemes').'</p>
+			        	<p>'.sprintf(__( 'You can edit theme details for each theme by clicking "Edit Details". All new details will be visible on <a href="%s">the themes page</a> available for all network sites. It is also possible to control aditional settings on "Network Admin" > "Settings" > "<a href="%s">Multisite Theme Manager</a>.','wmd_multisitethememanager'),  admin_url('themes.php?page=multisite-theme-manager.php'), admin_url('network/settings.php?page=multisite-theme-manager.php')).'</p>
+			        	<p>'.__( '<strong>Name</strong> - Replace the name of the theme with one of your choice. Leave blank to use the original name.','wmd_multisitethememanager').'</p>
+			        	<p>'.__( '<strong>Custom URL</strong> - Create an external theme link to any URL of your choice, for support documentation for example.','wmd_multisitethememanager').'</p>
+			        	<p>'.__( 'Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_multisitethememanager').'</p>
+			        	<p>'.__( '<strong>Image URL</strong> - Set image for this theme. You can choose an image from your media gallery or upload it to "wp-content/uploads/multisite-theme-manager/screenshots/" and input file name as "Custom URL". Alternatively, a file with the correct name will be autoloaded even when this field is empty (example: theme location - "wp-content/themes/twentythirteen/", image file - "akismet.png". Only PNG files will work with this method.). "Auto load screenshot with correct name" setting needs to be set to true for it to work. Recommended dimensions are 880px on 660px.','wmd_multisitethememanager').'</p>
+			        	<p>'.__( '<strong>Categories</strong> - Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.','wmd_multisitethememanager').'</p>
+			        	<p>'.__( '<strong>Description</strong> - Replace the original description of the theme with your own. Leave blank to use the original.','wmd_multisitethememanager').'</p>
 			        '
 		    	) 
 			);
@@ -390,28 +390,28 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			$tips->set_icon_url($this->plugin_dir_url.'multisite-theme-manager-files/images/tooltip.png');
 			$tips->set_use_notice(false);
 
-			$tips->bind_tip(__('Replace the name of the theme with one of your choice. Leave blank to use the original name.', 'wmd_prettythemes'), '#name_tooltip');
-			$tips->bind_tip(__('Create an external theme link to any URL of your choice, for support documentation for example.', 'wmd_prettythemes'), '#custom_url_tooltip');
-			$tips->bind_tip(__('Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_prettythemes'), '#custom_url_label_tooltip');
-			$tips->bind_tip(__('Set the featured image for this theme. Recommended dimensions are 880px on 660px. Use help tab (top right corner) to get info about advanced usage.', 'wmd_prettythemes'), '#image_url_tooltip');
-			$tips->bind_tip(__('Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.', 'wmd_prettythemes'), '#categories_tooltip');
-			$tips->bind_tip(__('Replace the original description of the theme with your own. Leave blank to use the original.', 'wmd_prettythemes'), '#description_tooltip');
+			$tips->bind_tip(__('Replace the name of the theme with one of your choice. Leave blank to use the original name.', 'wmd_multisitethememanager'), '#name_tooltip');
+			$tips->bind_tip(__('Create an external theme link to any URL of your choice, for support documentation for example.', 'wmd_multisitethememanager'), '#custom_url_tooltip');
+			$tips->bind_tip(__('Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_multisitethememanager'), '#custom_url_label_tooltip');
+			$tips->bind_tip(__('Set the featured image for this theme. Recommended dimensions are 880px on 660px. Use help tab (top right corner) to get info about advanced usage.', 'wmd_multisitethememanager'), '#image_url_tooltip');
+			$tips->bind_tip(__('Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.', 'wmd_multisitethememanager'), '#categories_tooltip');
+			$tips->bind_tip(__('Replace the original description of the theme with your own. Leave blank to use the original.', 'wmd_multisitethememanager'), '#description_tooltip');
 		}
 	}
 
 	function setup_mode_welcome_notice() {
-		echo '<div class="updated fade"><p>'.sprintf(__('Multisite Theme Manager is in "Setup Mode". Test your updates on your main site\'s <a href="%s">Theme</a> page in this mode. This reminder will disappear and theme details will function on your sites once Setup Mode is disabled on the <a href="%s">Settings</a> page. Modify themes using "Edit Details" at <a href="%s">Network Admin - Themes</a>.', 'wmd_prettythemes'), admin_url('themes.php?page=multisite-theme-manager.php'), admin_url('network/settings.php?page=multisite-theme-manager.php'), admin_url('network/themes.php')).'</p></div>';
+		echo '<div class="updated fade"><p>'.sprintf(__('Multisite Theme Manager is in "Setup Mode". Test your updates on your main site\'s <a href="%s">Theme</a> page in this mode. This reminder will disappear and theme details will function on your sites once Setup Mode is disabled on the <a href="%s">Settings</a> page. Modify themes using "Edit Details" at <a href="%s">Network Admin - Themes</a>.', 'wmd_multisitethememanager'), admin_url('themes.php?page=multisite-theme-manager.php'), admin_url('network/settings.php?page=multisite-theme-manager.php'), admin_url('network/themes.php')).'</p></div>';
 	}
 
 	function theme_page_notice() {
 		global $pagenow;
 
 		if ( $pagenow == 'themes.php' && isset($_REQUEST['page']) && $_REQUEST['page'] == 'multisite-theme-manager.php' && is_super_admin() && !is_network_admin() )
-			echo '<div class="updated"><p>'.sprintf(__('Super Admin, please note that standard theme page can still be accessed at <a href="%s">this URL</a>.', 'wmd_prettythemes'), admin_url('themes.php?default=1')).'</p></div>';
+			echo '<div class="updated"><p>'.sprintf(__('Super Admin, please note that standard theme page can still be accessed at <a href="%s">this URL</a>.', 'wmd_multisitethememanager'), admin_url('themes.php?default=1')).'</p></div>';
 	}
 
 	function network_admin_page() {
-		add_submenu_page('settings.php', __( 'Multisite Theme Manager', 'wmd_prettythemes' ), __( 'Multisite Theme Manager', 'wmd_prettythemes' ), 'manage_network_options', basename($this->plugin_main_file), array($this,'network_option_page'));
+		add_submenu_page('settings.php', __( 'Multisite Theme Manager', 'wmd_multisitethememanager' ), __( 'Multisite Theme Manager', 'wmd_multisitethememanager' ), 'manage_network_options', basename($this->plugin_main_file), array($this,'network_option_page'));
 	}
 
 	function network_option_page() {
@@ -421,18 +421,18 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 	function network_admin_theme_action_links($actions, $theme_file, $theme_data) {
 		if(is_network_admin()) {
 			//adds "edit details" link
-			array_splice($actions, 1, 0, '<a href="#'.$theme_file->stylesheet.'" title="'.__('Edit theme details like title, discription, image and categories', 'wmd_prettythemes').'" class="edit_details">'.__('Edit Details', 'wmd_prettythemes').'</a>');
+			array_splice($actions, 1, 0, '<a href="#'.$theme_file->stylesheet.'" title="'.__('Edit theme details like title, discription, image and categories', 'wmd_multisitethememanager').'" class="edit_details">'.__('Edit Details', 'wmd_multisitethememanager').'</a>');
 
 			//changes "edit" link to "edit code" for clarity
 			if(isset($actions['edit']))
-				$actions['edit'] = str_replace(__('Edit'), __( 'Edit Code', 'wmd_prettythemes' ), $actions['edit']);
+				$actions['edit'] = str_replace(__('Edit'), __( 'Edit Code', 'wmd_multisitethememanager' ), $actions['edit']);
 
 			return $actions;
 		}
 	}
 	function network_admin_plugin_action_links($actions, $plugin_file, $plugin_data) {
 		if($plugin_file == 'multisite-theme-manager/multisite-theme-manager.php')
-			$actions['settings'] = '<a href="'.admin_url('network/settings.php?page=multisite-theme-manager.php').'" title="'.__('Go to the Multisite Theme Manager settings page', 'wmd_prettyplugins').'">'.__('Settings', 'wmd_prettyplugins').'</a>';
+			$actions['settings'] = '<a href="'.admin_url('network/settings.php?page=multisite-theme-manager.php').'" title="'.__('Go to the Multisite Theme Manager settings page', 'wmd_multisitethememanager').'">'.__('Settings', 'wmd_multisitethememanager').'</a>';
 
 		return $actions;
 	}
@@ -445,12 +445,12 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 			update_site_option( 'wmd_prettythemes_options', $validated );
 
-			echo '<div id="message" class="updated"><p>'.__( 'Successfully saved', 'wmd_prettythemes' ).'</p></div>';
+			echo '<div id="message" class="updated"><p>'.__( 'Successfully saved', 'wmd_multisitethememanager' ).'</p></div>';
 		}
 		elseif(isset($_REQUEST['prettythemes_action'], $_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'wmd_prettythemes_options')) {
 			//delete custom data
 			if($_REQUEST['prettythemes_action'] == 'delete_custom_data') {
-				echo '<div id="message" class="updated"><p>'.__( 'All custom theme data deleted sucessfully.', 'wmd_prettythemes' ).'</p></div>';
+				echo '<div id="message" class="updated"><p>'.__( 'All custom theme data deleted sucessfully.', 'wmd_multisitethememanager' ).'</p></div>';
 				delete_site_option('wmd_prettythemes_themes_custom_data');
 				delete_site_option('wmd_prettythemes_themes_custom_data_config');
 				delete_site_option('wmd_prettythemes_themes_categories');
@@ -459,7 +459,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			}
 			//reset settings
 			if($_REQUEST['prettythemes_action'] == 'reset_settings') {
-				echo '<div id="message" class="updated"><p>'.__( 'All settings reset sucessfully.', 'wmd_prettythemes' ).'</p></div>';
+				echo '<div id="message" class="updated"><p>'.__( 'All settings reset sucessfully.', 'wmd_multisitethememanager' ).'</p></div>';
 				update_site_option('wmd_prettythemes_options', $this->default_options);
 				$this->options = $this->default_options;
 			}
@@ -467,11 +467,11 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		//try to import config file
 		elseif(isset($_POST['option_page'], $_POST['import_config'], $_POST['_wpnonce']) && $_POST['option_page'] == 'wmd_prettythemes_options' && wp_verify_nonce($_POST['_wpnonce'], 'wmd_prettythemes_options-options')) {
 			if (!isset($_FILES['config_file']) && $_FILES['config_file']['error'] > 0) {
-				echo '<div id="message" class="error"><p>'.__( 'There was a problem while uploading file.', 'wmd_prettythemes' ).'</p></div>';
+				echo '<div id="message" class="error"><p>'.__( 'There was a problem while uploading file.', 'wmd_multisitethememanager' ).'</p></div>';
 			}
 			else {
 				$this->import_xml_data_setting_file($_FILES['config_file']["tmp_name"]);
-				echo '<div id="message" class="updated"><p>'.__( 'Themes data and settings imported successfully.', 'wmd_prettythemes' ).'</p></div>';
+				echo '<div id="message" class="updated"><p>'.__( 'Themes data and settings imported successfully.', 'wmd_multisitethememanager' ).'</p></div>';
 			}
 		}
 	}
@@ -614,22 +614,22 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 		if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
-		<div id="message1" class="updated"><p><?php _e('The active theme is broken. Reverting to the default theme.'); ?></p></div>
+		<div id="message1" class="updated"><p><?php _e('The active theme is broken. Reverting to the default theme.', 'wmd_multisitethememanager'); ?></p></div>
 		<?php elseif ( isset($_GET['activated']) ) :
 				if ( isset( $_GET['previewed'] ) ) { ?>
-				<div id="message2" class="updated"><p><?php printf( __( 'Settings saved and theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div>
+				<div id="message2" class="updated"><p><?php printf( __( 'Settings saved and theme activated. <a href="%s">Visit site</a>', 'wmd_multisitethememanager' ), home_url( '/' ) ); ?></p></div>
 				<?php } else { ?>
-		<div id="message2" class="updated"><p><?php printf( __( 'New theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div><?php
+		<div id="message2" class="updated"><p><?php printf( __( 'New theme activated. <a href="%s">Visit site</a>', 'wmd_multisitethememanager' ), home_url( '/' ) ); ?></p></div><?php
 				}
 			elseif ( isset($_GET['deleted']) ) : ?>
-		<div id="message3" class="updated"><p><?php _e('Theme deleted.') ?></p></div>
+		<div id="message3" class="updated"><p><?php _e('Theme deleted.', 'wmd_multisitethememanager') ?></p></div>
 		<?php
 		endif;
 
 		$ct = wp_get_theme();
 
 		if ( $ct->errors() && current_user_can( 'manage_network_themes' ) ) {
-			echo '<p class="error-message">' . sprintf( __( 'ERROR: %s' ), $ct->errors()->get_error_message() ) . '</p>';
+			echo '<p class="error-message">' . sprintf( __( 'ERROR: %s', 'wmd_multisitethememanager' ), $ct->errors()->get_error_message() ) . '</p>';
 		}
 
 		//setup action links for current theme

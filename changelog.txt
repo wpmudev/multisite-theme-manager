@@ -4,5 +4,8 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.0.0.1 =
+* Changed translation text domain from wmd_prettythemes to wmd_multisitethememanager
+
 = 1.0.0 =
 * Initial Release

@@ -60,7 +60,7 @@ class WMD_PrettyThemes_Functions {
 				    if (is_dir($themes_dirs_paths[$type].'/'.$theme_dir))
 				        if(file_exists($themes_dirs_paths[$type].'/'.$theme_dir.'/index.php')) {
 				        	$theme_dir_name = ucwords(str_replace('-', ' ', $theme_dir));
-				        	$type_name = ($type == 'custom') ? __( 'Custom', 'wmd_prettythemes' ) : __( 'Standard', 'wmd_prettythemes' );
+				        	$type_name = ($type == 'custom') ? __( 'Custom', 'wmd_multisitethememanager' ) : __( 'Standard', 'wmd_multisitethememanager' );
 				        	$themes[$type.'/'.$theme_dir] = $theme_dir_name.' ('.$type_name.')';
 				    	}
 			}
