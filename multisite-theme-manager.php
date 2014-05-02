@@ -6,7 +6,7 @@ Description: Take control of the theme admin page for your multisite network. Ca
 Version: 1.0.0.1
 Network: true
 Text Domain: wmd_multisitethememanager
-Author: WPMUDEV
+Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 WDP ID: 883804
 */
