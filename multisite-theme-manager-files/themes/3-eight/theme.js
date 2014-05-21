@@ -164,9 +164,7 @@ themes.Collection = Backbone.Collection.extend({
 
   // Controls viewing themes from category on the current theme collection
   // and triggers an update event
-  doCategory: function( value ) {
-    event.preventDefault();
-    
+  doCategory: function( value ) {  
     //Sets up class for active category button
     $('#theme-search-input').val('');
     $('.theme-categories .theme-category').removeClass('current');
@@ -798,6 +796,8 @@ themes.view.Categories = wp.Backbone.View.extend({
 
   // Runs a search on the theme collection.
   categories: function( event ) {
+    event.preventDefault();
+    
     // Update the URL hash
     if ( event.target.dataset.category ) {
       this.collection.doCategory( event.target.dataset.category );

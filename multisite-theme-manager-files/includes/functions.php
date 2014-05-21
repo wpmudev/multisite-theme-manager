@@ -235,8 +235,8 @@ class WMD_PrettyThemes_Functions {
 					$theme['screenshot'] = array($screenshot);
 			}
 
-			$link_label = ($theme_custom_data['CustomLinkLabel']) ? $theme_custom_data['CustomLinkLabel'] : $this->options['themes_link_label'];
-			$theme['customLinkAndUri'] = ($this->options['themes_options']['custom_link'] && $link_label) ? '<a href="'.$theme_custom_data['CustomLink'].'">'.stripslashes($link_label).'</a>' : false;
+			$link_label = (isset($theme_custom_data['CustomLinkLabel']) && $theme_custom_data['CustomLinkLabel']) ? $theme_custom_data['CustomLinkLabel'] : $this->options['themes_link_label'];
+			$theme['customLinkAndUri'] = (isset($this->options['themes_options']['custom_link']) && isset($theme_custom_data['CustomLink']) && $this->options['themes_options']['custom_link'] && $link_label) ? '<a href="'.$theme_custom_data['CustomLink'].'">'.stripslashes($link_label).'</a>' : false;
 
 			if(isset($theme_custom_data['Categories']) && count($theme_custom_data['Categories']) > 0) {
 				$categories = $categories_keys = array();

@@ -3,7 +3,7 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.0.0.1
+Version: 1.0.0.2
 Network: true
 Text Domain: wmd_multisitethememanager
 Author: WPMU DEV
@@ -239,11 +239,11 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 		//register scripts and styles for theme page
 		if( $hook == 'appearance_page_multisite-theme-manager' ) {
-			wp_register_style('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'style.css');
+			wp_register_style('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'style.css', array(), 3);
 			wp_enqueue_style('wmd-prettythemes-theme');
 
 
-			wp_register_script('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), false, true);
+			wp_register_script('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), 3, true);
 
 			if ( current_user_can( 'switch_themes' ) ) {
 				$this->themes_data = wp_prepare_themes_for_js();
@@ -301,6 +301,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				'theme_url' => $this->current_theme_details['dir_url'],
 				'image' => __('Custom Image', 'wmd_multisitethememanager'),
 				'edit_code' => __('Edit Code', 'wmd_multisitethememanager'),
+				'edit' => __('edit', 'wmd_multisitethememanager'),
 				'orginal_description' => __('Show/hide orginal description', 'wmd_multisitethememanager'),
 				'default_custom_url_label' => $this->options['themes_link_label'],
 				'categories' => __('Categories', 'wmd_multisitethememanager'),
@@ -608,7 +609,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 	}
 
 	function new_theme_page() {
-		global $submenu;
+		global $submenu, $self;
 
 		if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -633,6 +634,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		}
 
 		//setup action links for current theme
+		$parent_file = 'themes.php';
 		$current_theme_actions = array();
 		if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 			foreach ( (array) $submenu['themes.php'] as $item) {

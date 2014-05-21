@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Multisite Theme Manager\n"
-"POT-Creation-Date: 2014-05-01 08:29+0100\n"
-"PO-Revision-Date: 2014-05-01 08:29+0100\n"
+"POT-Creation-Date: 2014-05-21 08:40+0100\n"
+"PO-Revision-Date: 2014-05-21 08:40+0100\n"
 "Last-Translator: \n"
 "Language-Team: Incsub\n"
 "Language: en\n"
@@ -65,12 +65,13 @@ msgstr ""
 
 #: C:\Programs
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager-files/includes/element-edit-details.php:48
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:306
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:307
 msgid "Categories"
 msgstr ""
 
 #: C:\Programs
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager-files/includes/element-edit-details.php:58
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:304
 msgid "edit"
 msgstr ""
 
@@ -482,32 +483,32 @@ msgstr ""
 
 #: C:\Programs
 #: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:303
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:428
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:429
 msgid "Edit Code"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:304
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:305
 msgid "Show/hide orginal description"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:307
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:308
 msgid "Choose image for theme screenshot (recommended size: 880px on 660px)"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:308
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:309
 msgid "Select Image"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:372
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:373
 msgid "Editing Theme Details"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:374
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:375
 #, php-format
 msgid ""
 "You can edit theme details for each theme by clicking \"Edit Details\". All "
@@ -518,29 +519,29 @@ msgid ""
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:375
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:376
 msgid ""
 "<strong>Name</strong> - Replace the name of the theme with one of your "
 "choice. Leave blank to use the original name."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:376
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:377
 msgid ""
 "<strong>Custom URL</strong> - Create an external theme link to any URL of "
 "your choice, for support documentation for example."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:377
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:395
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:378
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:396
 msgid ""
 "Set label for custom url. Leave blank to use default label configured in "
 "Multisite Theme Manager settings page."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:378
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:379
 msgid ""
 "<strong>Image URL</strong> - Set image for this theme. You can choose an "
 "image from your media gallery or upload it to \"wp-content/uploads/multisite-"
@@ -553,56 +554,56 @@ msgid ""
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:379
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:380
 msgid ""
 "<strong>Categories</strong> - Allows you to set categories that the theme "
 "will be assigned to. Unused categories will be automatically deleted."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:380
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:381
 msgid ""
 "<strong>Description</strong> - Replace the original description of the theme "
 "with your own. Leave blank to use the original."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:393
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:394
 msgid ""
 "Replace the name of the theme with one of your choice. Leave blank to use "
 "the original name."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:394
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:395
 msgid ""
 "Create an external theme link to any URL of your choice, for support "
 "documentation for example."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:396
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:397
 msgid ""
 "Set the featured image for this theme. Recommended dimensions are 880px on "
 "660px. Use help tab (top right corner) to get info about advanced usage."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:397
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:398
 msgid ""
 "Allows you to set categories that the theme will be assigned to. Unused "
 "categories will be automatically deleted."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:398
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:399
 msgid ""
 "Replace the original description of the theme with your own. Leave blank to "
 "use the original."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:403
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:404
 #, php-format
 msgid ""
 "Multisite Theme Manager is in \"Setup Mode\". Test your updates on your main "
@@ -613,7 +614,7 @@ msgid ""
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:410
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:411
 #, php-format
 msgid ""
 "Super Admin, please note that standard theme page can still be accessed at "
@@ -621,89 +622,89 @@ msgid ""
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:414
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:415
 msgid "Multisite Theme Manager"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:424
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:425
 msgid "Edit theme details like title, discription, image and categories"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:424
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:425
 msgid "Edit Details"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:428
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:429
 msgid "Edit"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:435
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:436
 msgid "Go to the Multisite Theme Manager settings page"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:435
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:436
 msgid "Settings"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:448
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:449
 msgid "Successfully saved"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:453
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:454
 msgid "All custom theme data deleted sucessfully."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:462
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:463
 msgid "All settings reset sucessfully."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:470
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:471
 msgid "There was a problem while uploading file."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:474
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:475
 msgid "Themes data and settings imported successfully."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:614
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:615
 msgid "Cheatin&#8217; uh?"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:617
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:618
 msgid "The active theme is broken. Reverting to the default theme."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:620
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:621
 #, php-format
 msgid "Settings saved and theme activated. <a href=\"%s\">Visit site</a>"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:622
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:623
 #, php-format
 msgid "New theme activated. <a href=\"%s\">Visit site</a>"
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:625
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:626
 msgid "Theme deleted."
 msgstr ""
 
 #: C:\Programs
-#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:632
+#: Portable\EasyPHP\data\localweb\wordpress-incsub\wp-content\plugins\multisite-theme-manager/multisite-theme-manager.php:633
 #, php-format
 msgid "ERROR: %s"
 msgstr ""
