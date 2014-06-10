@@ -102,7 +102,13 @@ class WMD_PrettyThemes_Functions {
 		if(!isset($this->themes_categories) || !is_array($this->themes_categories))
 			$this->themes_categories = array();
 
-		$categories = array_merge($this->themes_categories_config, $this->themes_categories);
+		//remove categories with same label
+		$unique_config_categories = array();
+		foreach ($this->themes_categories_config as $key => $value)
+			if(!in_array($value, $this->themes_categories) )
+				$unique_config_categories[$key] = $value;
+
+		$categories = array_merge($unique_config_categories, $this->themes_categories);
 		asort($categories);
 
 		return $categories;
@@ -241,10 +247,16 @@ class WMD_PrettyThemes_Functions {
 			if(isset($theme_custom_data['Categories']) && count($theme_custom_data['Categories']) > 0) {
 				$categories = $categories_keys = array();
 				foreach ($theme_custom_data['Categories'] as $theme_category_key) {
-					$categories[] = $themes_categories[$theme_category_key];
-					$categories_keys[] = $theme_category_key;
-					$theme['categories'] = implode(', ', $categories);
-					$theme['categories_keys'] = $categories_keys;
+					//check if its missing because we wanted to remove duplicated categories from config
+					if(!isset($themes_categories[$theme_category_key]))
+						$theme_category_key = array_search($this->themes_categories_config[$theme_category_key], $this->themes_categories);
+
+					if(isset($themes_categories[$theme_category_key])) {
+						$categories[] = $themes_categories[$theme_category_key];
+						$categories_keys[] = $theme_category_key;
+						$theme['categories'] = implode(', ', $categories);
+						$theme['categories_keys'] = $categories_keys;
+					}
 				}
 			}
 

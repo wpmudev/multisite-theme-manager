@@ -69,13 +69,13 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 			register_activation_hook($this->plugin_main_file, array($this, 'do_activation'));
 
+			add_action('init', array($this,'init'));
+
 			//if in setup mode, disable everything for other sites then main.
 			if( isset($this->options['setup_mode']) && ($this->options['setup_mode'] == 0 || ($this->blog_id == 1 && $this->options['setup_mode'] == 1)) ) {
 				add_action('plugins_loaded', array($this,'plugins_loaded'));
 
 				add_action('admin_enqueue_scripts', array($this,'register_scripts_styles_admin'), 11);
-
-				add_action('init', array($this,'init'));
 
 				add_action('admin_menu', array($this,'admin_page'), 20);
 				add_action('network_admin_menu', array($this,'network_admin_page'), 20);
@@ -132,7 +132,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		);
 
 		//load options
-		$this->options = get_site_option('wmd_prettythemes_options');
+		$this->options = get_site_option('wmd_prettythemes_options', $this->default_options);
     }
 
     function do_activation() {
