@@ -52,10 +52,22 @@
 				<th scope="row">
 					<label for="wmd_prettythemes_options[themes_options]"><?php _e('Select details that you want to show for themes', 'wmd_multisitethememanager') ?></label>
 				</th>
-
+				<?php $select_options = array('' => __('Open in the same window', 'wmd_multisitethememanager'), '1' => __('Open in new window', 'wmd_multisitethememanager')); ?>
 				<td>
-					<label><input name="wmd_prettythemes_options[themes_options][author_link]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['author_link']); ?>>Author Link</label><br/>
-					<label><input name="wmd_prettythemes_options[themes_options][custom_link]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['custom_link']); ?>>Custom Link</label><br/>
+					<label><input name="wmd_prettythemes_options[themes_options][author_link]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['author_link']); ?>>Author Link</label> 
+						<label>
+							<select name="wmd_prettythemes_options[themes_options][author_link_target]">
+								<?php $this->the_select_options($select_options, $this->options['themes_options']['author_link_target']); ?>
+							</select>
+						</label>
+						<br/>
+					<label><input name="wmd_prettythemes_options[themes_options][custom_link]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['custom_link']); ?>>Custom Link</label>
+						<label>
+							<select name="wmd_prettythemes_options[themes_options][custom_link_target]">
+								<?php $this->the_select_options($select_options, $this->options['themes_options']['custom_link_target']); ?>
+							</select>
+						</label>
+						<br/>
 					<label><input name="wmd_prettythemes_options[themes_options][tags]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['tags']); ?>>Tags</label><br/>
 					<label><input name="wmd_prettythemes_options[themes_options][version]" type="checkbox" id="registrationnotification" value="1" <?php checked( '1', $this->options['themes_options']['version']); ?>>Version</label>
 					<p class="description"><?php _e('Choose which links will be displayed for each theme', 'wmd_multisitethememanager') ?></p>

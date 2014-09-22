@@ -124,7 +124,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		$this->default_options = array(
 			'setup_mode' => '1',
 			'theme' => 'standard/3-eight',
-			'themes_options' => array('author_link' => '1', 'custom_link' => '1', 'tags' => '1', 'version' => '1'),
+			'themes_options' => array('author_link' => '1', 'author_link_target' => '', 'custom_link' => '1', 'custom_link_target' => '', 'tags' => '1', 'version' => '1'),
 			'themes_auto_screenshots_by_name' => '0',
 			'themes_page_title' => __('Themes', 'wmd_multisitethememanager'),
 			'themes_page_description' => '',
@@ -362,7 +362,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 	function admin_body_class($classes) {
 		global $pagenow;
 
-		if(!is_network_admin() && $pagenow == 'themes.php')
+		if(!is_network_admin() && $pagenow == 'themes.php' && $_GET['page'] == 'multisite-theme-manager.php')
 			return ($classes) ? $classes.' themes-php' : 'themes-php';
 	}
 
