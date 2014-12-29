@@ -46,7 +46,7 @@ class WMD_PrettyThemes_Functions {
     	$themes_dirs = $themes = array();
     	$themes_dirs_paths = array(
     			'standard' => $this->plugin_dir.'multisite-theme-manager-files/themes/',
-    			'custom' => $this->plugin_dir_custom.'multisite-theme-manager-files/themes/'
+    			'custom' => $this->plugin_dir_custom.'themes/'
     		);
     	if(is_dir($themes_dirs_paths['standard']))
 			$themes_dirs['standard'] = scandir($themes_dirs_paths['standard']);
@@ -77,8 +77,8 @@ class WMD_PrettyThemes_Functions {
     		$theme['type'] = 'standard';
     	}
     	elseif($theme_details[0] == 'custom' && !empty($this->plugin_dir_url_custom)) {
-    		$theme['dir_url'] = $this->plugin_dir_url_custom.'multisite-theme-manager-files/themes/'.$theme_details[1].'/';
-    		$theme['dir'] = $this->plugin_dir_custom.'multisite-theme-manager-files/themes/'.$theme_details[1].'/';
+    		$theme['dir_url'] = $this->plugin_dir_url_custom.'themes/'.$theme_details[1].'/';
+    		$theme['dir'] = $this->plugin_dir_custom.'themes/'.$theme_details[1].'/';
     		$theme['type'] = 'custom';
     	}
 

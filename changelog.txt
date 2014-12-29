@@ -4,6 +4,10 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.0.0.4 =
+* fixed languages folder paths
+* fixed custom themes folder paths
+
 = 1.0.0.3 =
 * Added option to set target for custom theme and author theme link
 * Added merging of config and site categories
