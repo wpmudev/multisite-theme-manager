@@ -3,7 +3,7 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.0.0.4
+Version: 1.0.0.5
 Network: true
 Text Domain: wmd_multisitethememanager
 Author: WPMU DEV
@@ -233,7 +233,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			(isset($this->options['setup_mode']) && ($this->options['setup_mode'] == 0 || ($this->blog_id == 1 && $this->options['setup_mode'] == 1))) &&
 			(!is_network_admin() && !$action && $default != 1 && $page === 0 && $pagenow == 'themes.php')
 		) {
-			wp_redirect( add_query_arg(array('page' => 'multisite-theme-manager.php')) );
+			wp_redirect( esc_url_raw(add_query_arg(array('page' => 'multisite-theme-manager.php'))) );
 			exit();
 		}
 	}
@@ -257,7 +257,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			wp_reset_vars( array( 'theme', 'search' ) );
 
 			$this->themes_data = $this->get_merged_theme_data();
-			$themes_categories = array_merge(array('all' => 'All'), $this->get_merged_themes_categories());
+			$themes_categories = array_merge(array('all' => __( 'All', 'wmd_multisitethememanager' )), $this->get_merged_themes_categories());
 			$theme = isset($_GET['theme']) ? $_GET['theme'] : '';
 			$search = isset($_GET['search']) ? $_GET['search'] : '';
 			$category = isset($_GET['category']) ? $_GET['category'] : '';

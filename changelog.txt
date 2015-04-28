@@ -4,6 +4,10 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.0.0.5 =
+* fixed missing translation
+* fixed XSS security issue
+
 = 1.0.0.4 =
 * fixed languages folder paths
 * fixed custom themes folder paths
