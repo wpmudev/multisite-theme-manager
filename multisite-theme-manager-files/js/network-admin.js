@@ -64,6 +64,16 @@ jQuery(document).ready(function() {
 			if(theme_details_array[theme_path].image_url != null)
 				theme.edit_row.find('.theme_image_url').val(theme_details_array[theme_path].image_url);
 			prettythemes_handle_image_id(theme.edit_row, theme_details_array[theme_path].image_id);
+			if(wmd_pl_na.default_theme == theme_path && theme_details_array[theme_path].deprecate_on_off == null) {
+				theme.edit_row.find('.default-theme').show();
+				theme.edit_row.find('.timestamp-wrap').hide();
+			}
+			else if(theme_details_array[theme_path].deprecate_on_off != null) {
+				theme.edit_row.find('.theme_deprecate_on_off').attr('checked', 'checked');
+				theme.edit_row.find('.theme_deprecate_mm').val(theme_details_array[theme_path].deprecate_mm);
+				theme.edit_row.find('.theme_deprecate_jj').val(theme_details_array[theme_path].deprecate_jj);
+				theme.edit_row.find('.theme_deprecate_aa').val(theme_details_array[theme_path].deprecate_aa);
+			}
 
 			if(theme_details_array[theme_path].categories != null) {
 				jQuery.each(theme_details_array[theme_path].categories, function( index, value ) {
@@ -97,7 +107,7 @@ jQuery(document).ready(function() {
 		theme_new_category = theme.edit_row.find('.theme-new-edit-category').val();
 
 		if(theme_new_category != '') {
-			theme.edit_row.find('.spinner-add-category').show();
+			theme.edit_row.find('.spinner-add-category').css('visibility', 'visible');
 
 			var data = { //looks for and sets all variables used for export
 				action: 'prettythemes_add_category_ajax',
@@ -155,7 +165,7 @@ jQuery(document).ready(function() {
 		theme_edit_category_key = theme.edit_row.find('.theme-edit-category-key').val();
 
 		if(theme_edit_category != '') {
-			theme.edit_row.find('.spinner-add-category').show();
+			theme.edit_row.find('.spinner-add-category').css('visibility', 'visible');
 
 			var data = { //looks for and sets all variables used for export
 				action: 'prettythemes_save_category_ajax',
@@ -203,7 +213,7 @@ jQuery(document).ready(function() {
 			theme_categories_ready.push(jQuery(this).val());
 		});
 
-		theme.edit_row.find('.spinner-save').show();
+		theme.edit_row.find('.spinner-save').css('visibility', 'visible');
 
 		var data = {
 			action: 'prettythemes_save_theme_details_ajax',
@@ -214,6 +224,8 @@ jQuery(document).ready(function() {
 			theme_custom_url_label: theme.edit_row.find( 'input.theme_custom_url_label' ).val(),
 			theme_image_url: theme.edit_row.find( 'input.theme_image_url' ).val(),
 			theme_image_id: theme.edit_row.find( 'input.theme_image_id' ).val(),
+			theme_deprecate_date: theme.edit_row.find( 'input.theme_deprecate_jj' ).val()+'.'+theme.edit_row.find( 'select.theme_deprecate_mm' ).val()+'.'+theme.edit_row.find( 'input.theme_deprecate_aa' ).val(),
+			theme_deprecate_on_off: theme.edit_row.find( 'input.theme_deprecate_on_off' ).is(':checked') ? 1 : 0,
 			theme_description: theme.edit_row.find( 'textarea.theme_description' ).val(),
 			theme_categories: theme_categories_ready
 		};
@@ -317,7 +329,7 @@ function prettythemes_hide_image_id_edit_button(target) {
 	target.find('.theme_image_edit_button').hide().attr('href', '#');
 }
 function prettythemes_hide_new_edit_form(target) {
-	target.find('.spinner-add-category').hide();
+	target.find('.spinner-add-category').css('visibility', 'hidden');
 
 	target.find('.add-category-show-form, .add-category-button').show();
 	target.find('.edit-category, .edit-category-save-button').hide();
@@ -391,6 +403,17 @@ function prettythemes_theme_add_data(theme_path) {
 		}
 		else
 			theme.description_column.find('.theme-categories-holder').remove();
+
+		if(theme_details.deprecate_on_off != null) {
+			var theme_deprecation = theme.description_column.find('.theme-deprecation-holder');
+
+			if(theme_deprecation.length)
+				theme_deprecation.text(wmd_pl_na.deprecation_date+': '+theme_details.deprecate_jj+'.'+theme_details.deprecate_mm+'.'+theme_details.deprecate_aa);
+			else
+				theme.description_column.find('.theme-version-author-uri:last').after( '<div class="update second theme-version-author-uri theme-deprecation-holder">'+wmd_pl_na.deprecation_date+': '+theme_details.deprecate_jj+'.'+theme_details.deprecate_mm+'.'+theme_details.deprecate_aa+'</div>' );
+		}
+		else
+			theme.description_column.find('.theme-deprecation-holder:last').remove();
 	}
 }
 

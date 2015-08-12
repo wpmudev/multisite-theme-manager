@@ -3,7 +3,7 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.0.0.5
+Version: 1.1.1
 Network: true
 Text Domain: wmd_multisitethememanager
 Author: WPMU DEV
@@ -64,7 +64,9 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		if(file_exists(PRETTYTHEMES_PLUGIN_DIR.'external/dash-notice/wpmudev-dash-notification.php'))
 			include_once(PRETTYTHEMES_PLUGIN_DIR.'multisite-theme-manager-files/external/dash-notice/wpmudev-dash-notification.php');
 
-		//plugin only works on admin
+		
+
+		//most of the staff only works on admin
 		if(is_admin()) {
 			$this->init_vars();
 
@@ -129,7 +131,9 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			'themes_auto_screenshots_by_name' => '0',
 			'themes_page_title' => __('Themes', 'wmd_multisitethememanager'),
 			'themes_page_description' => '',
-			'themes_link_label' => __('Learn more about theme', 'wmd_multisitethememanager')
+			'themes_link_label' => __('Learn more about theme', 'wmd_multisitethememanager'),
+			'author_link_target' => '',
+			'custom_link_target' => ''
 		);
 
 		//load options
@@ -172,8 +176,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 		//load stuff when on correct page
 		if($this->is_prettythemes_data_required()) {
-			$this->themes_custom_data = get_site_option('wmd_prettythemes_themes_custom_data', array());
-			$this->current_theme_details = $this->get_current_theme_details();
+			$this->set_custom_theme_data();
 
 			//Check if prosite and theme module is active
 			$this->pro_site_settings = get_site_option( 'psts_settings' );
@@ -183,6 +186,38 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				$this->pro_site_plugin_active = false;
 				$this->pro_site_settings = false;
 			}
+		}
+
+		//controlls welcome/setup notice
+		if(current_user_can('manage_network_options') && (!isset($_POST['wmd_prettythemes_options']['setup_mode']) && $this->options['setup_mode'] == 1 || (isset($_POST['wmd_prettythemes_options']['setup_mode']) && $_POST['wmd_prettythemes_options']['setup_mode'] != 0)) && $this->is_prettythemes_data_required())
+			add_action( 'all_admin_notices', array( $this, 'setup_mode_welcome_notice' ), 12 );
+
+		//launch deprecation engine
+		$this->deprecate_engine();
+
+		//check if stuff are being exported
+		if(isset($_REQUEST['prettythemes_action']) && $_REQUEST['prettythemes_action'] == 'export')
+			add_action('wp_loaded', array($this,'export_data_settings'), 1);
+
+		//Fix for first standard menu sub item being replced
+		if($page === 'multisite-theme-manager.php' && $pagenow == 'admin.php') {
+			wp_redirect( admin_url('themes.php?page=multisite-theme-manager.php') );
+			exit();
+		}
+
+		//Redirect old themes page to new if parameter is not set
+		if(
+			(isset($this->options['setup_mode']) && ($this->options['setup_mode'] == 0 || ($this->blog_id == 1 && $this->options['setup_mode'] == 1))) &&
+			(!is_network_admin() && !$action && $default != 1 && $page === 0 && $pagenow == 'themes.php')
+		) {
+			wp_redirect( add_query_arg(array('page' => 'multisite-theme-manager.php')) );
+			exit();
+		}
+	}
+
+	function set_custom_theme_data() {
+		$this->themes_custom_data = get_site_option('wmd_prettythemes_themes_custom_data', array());
+		$this->current_theme_details = $this->get_current_theme_details();
 
 			//load config file if exists
 			$config_file_path = '';
@@ -214,30 +249,6 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			$this->themes_categories = get_site_option('wmd_prettythemes_themes_categories', array());
 		}
 
-		//controlls welcome/setup notice
-		if(current_user_can('manage_network_options') && (!isset($_POST['wmd_prettythemes_options']['setup_mode']) && $this->options['setup_mode'] == 1 || (isset($_POST['wmd_prettythemes_options']['setup_mode']) && $_POST['wmd_prettythemes_options']['setup_mode'] != 0)) && $this->is_prettythemes_data_required())
-			add_action( 'all_admin_notices', array( $this, 'setup_mode_welcome_notice' ), 12 );
-
-		//check if stuff are being exported
-		if(isset($_REQUEST['prettythemes_action']) && $_REQUEST['prettythemes_action'] == 'export')
-			add_action('wp_loaded', array($this,'export_data_settings'), 1);
-
-		//Fix for first standard menu sub item being replced
-		if($page === 'multisite-theme-manager.php' && $pagenow == 'admin.php') {
-			wp_redirect( admin_url('themes.php?page=multisite-theme-manager.php') );
-			exit();
-		}
-
-		//Redirect old themes page to new if parameter is not set
-		if(
-			(isset($this->options['setup_mode']) && ($this->options['setup_mode'] == 0 || ($this->blog_id == 1 && $this->options['setup_mode'] == 1))) &&
-			(!is_network_admin() && !$action && $default != 1 && $page === 0 && $pagenow == 'themes.php')
-		) {
-			wp_redirect( esc_url_raw(add_query_arg(array('page' => 'multisite-theme-manager.php'))) );
-			exit();
-		}
-	}
-
 	function register_scripts_styles_admin($hook) {
 		global $pagenow;
 
@@ -249,50 +260,20 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 			wp_register_script('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), 3, true);
 
-			if ( current_user_can( 'switch_themes' ) ) {
-				$this->themes_data = wp_prepare_themes_for_js();
-			} else {
-				$this->themes_data = wp_prepare_themes_for_js( array( wp_get_theme() ) );
-			}
 			wp_reset_vars( array( 'theme', 'search' ) );
 
-			$this->themes_data = $this->get_merged_theme_data();
-			$themes_categories = array_merge(array('all' => __( 'All', 'wmd_multisitethememanager' )), $this->get_merged_themes_categories());
-			$theme = isset($_GET['theme']) ? $_GET['theme'] : '';
-			$search = isset($_GET['search']) ? $_GET['search'] : '';
-			$category = isset($_GET['category']) ? $_GET['category'] : '';
-
-			wp_localize_script( 'wmd-prettythemes-theme', '_wpThemeSettings', array(
-				'themes'   => $this->themes_data,
-				'categories'   => $themes_categories,
-
-				'settings' => array(
-					'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
-					'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
-					'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete.", 'wmd_multisitethememanager' ),
-					'root'          => parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ).'?page=multisite-theme-manager.php',
-					'theme'         => esc_html( $theme ),
-					'search'        => esc_html( $search ),
-					'category'        => esc_html( $category ),
-				),
-			 	'l10n' => array(
-			 		'search'  => __( 'Search Installed Themes', 'wmd_multisitethememanager' ),
-			 		'searchPlaceholder' => __( 'Search installed themes...', 'wmd_multisitethememanager' ),
-			 		'categories' => __( 'Categories:', 'wmd_multisitethememanager' ),
-			  	),
-			) );
+			$this->enqueue_theme_showcase_script_data();
 
 			add_thickbox();
-			//wp_enqueue_script( 'theme' );
 			wp_enqueue_script('wmd-prettythemes-theme');
 			wp_enqueue_script( 'customize-loader' );
 		}
 		//register scripts and styles for network theme page
 		elseif($hook == 'themes.php' && is_network_admin()) {
-			wp_register_style('wmd-prettythemes-network-admin', $this->plugin_dir_url.'multisite-theme-manager-files/css/network-admin.css');
+			wp_register_style('wmd-prettythemes-network-admin', $this->plugin_dir_url.'multisite-theme-manager-files/css/network-admin.css', array(), 4);
 			wp_enqueue_style('wmd-prettythemes-network-admin');
 
-			wp_register_script('wmd-prettythemes-network-admin', $this->plugin_dir_url.'multisite-theme-manager-files/js/network-admin.js', false, true);
+			wp_register_script('wmd-prettythemes-network-admin', $this->plugin_dir_url.'multisite-theme-manager-files/js/network-admin.js', array(), 4, true);
 			wp_enqueue_script('wmd-prettythemes-network-admin');
 
 			$themes_custom_data_ready = $this->get_converted_themes_data_for_js($this->get_merged_themes_custom_data());
@@ -309,10 +290,12 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				'orginal_description' => __('Show/hide orginal description', 'wmd_multisitethememanager'),
 				'default_custom_url_label' => $this->options['themes_link_label'],
 				'categories' => __('Categories', 'wmd_multisitethememanager'),
+				'deprecation_date' => __('Deprecation Date', 'wmd_multisitethememanager'),
 				'choose_screenshot' => __('Choose image for theme screenshot (recommended size: 880px on 660px)', 'wmd_multisitethememanager'),
 				'select_image' => __('Select Image', 'wmd_multisitethememanager'),
 				'theme_details' => $themes_custom_data_ready,
-				'theme_categories' => $themes_categories_ready
+				'theme_categories' => $themes_categories_ready,
+				'default_theme' => get_site_option('default_theme', 0)
 			);
 			wp_localize_script( 'wmd-prettythemes-network-admin', 'wmd_pl_na', $params );
 
@@ -328,15 +311,50 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			else
 				$theme_path = get_stylesheet();
 
-			if(isset($theme_path) && isset($themes_custom_data_ready[$theme_path]))
-				$theme = $themes_custom_data_ready[$theme_path];
-
-			if($theme) {
-				wp_register_script('wmd-prettythemes-customize', $this->plugin_dir_url.'multisite-theme-manager-files/js/customize.js', false, true);
-				wp_enqueue_script('wmd-prettythemes-customize');
-				wp_localize_script( 'wmd-prettythemes-customize', 'wmd_msreader', array('current_theme' => $theme) );
-			}
+			wp_register_script('wmd-prettythemes-customize', $this->plugin_dir_url.'multisite-theme-manager-files/js/customize.js', false, 4);
+			wp_enqueue_script('wmd-prettythemes-customize');
+			wp_localize_script( 'wmd-prettythemes-customize', 'prettythemes_customize', array('current_theme_path' => $theme_path, 'themes_custom_data' => $themes_custom_data_ready) );
 		}
+	}
+
+	function enqueue_theme_showcase_script_data($script_name = 'wmd-prettythemes-theme', $root = 'admin', $force_all = false, $themes = false) {
+		if(!function_exists('wp_prepare_themes_for_js'))
+			require_once(ABSPATH . '/wp-admin/includes/theme.php');
+
+		if(!$themes && (current_user_can( 'switch_themes' ) || $force_all ))
+			$this->themes_data = wp_prepare_themes_for_js();
+		elseif(is_array($themes))
+			$this->themes_data = wp_prepare_themes_for_js($themes);
+		else
+			$this->themes_data = wp_prepare_themes_for_js( array( wp_get_theme() ) );
+
+		$this->themes_data = $this->get_merged_theme_data();
+		$themes_categories = array_merge(array('all' => 'All'), $this->get_merged_themes_categories($this->themes_data));
+		$theme = isset($_GET['theme']) ? $_GET['theme'] : '';
+		$search = isset($_GET['search']) ? $_GET['search'] : '';
+		$category = isset($_GET['category']) ? $_GET['category'] : '';
+
+		wp_localize_script($script_name, '_wpThemeSettings', array(
+			'themes'   => $this->themes_data,
+			'categories'   => $themes_categories,
+
+			'settings' => array(
+				'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
+				'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
+				'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete.", 'wmd_multisitethememanager' ),
+				'root'          => $root == 'admin' ? parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ).'?page=multisite-theme-manager.php' : $root,
+				'theme'         => esc_html( $theme ),
+				'search'        => esc_html( $search ),
+				'category'        => esc_html( $category ),
+			),
+		 	'l10n' => array(
+		 		'search'  => __( 'Search Installed Themes', 'wmd_multisitethememanager' ),
+		 		'searchFE'  => __( 'Search Available Themes:', 'wmd_multisitethememanager' ),
+		 		'searchPlaceholder' => __( 'Search installed themes...', 'wmd_multisitethememanager' ),
+		 		'searchFEPlaceholder' => __( 'Search available themes...', 'wmd_multisitethememanager' ),
+		 		'categories' => __( 'Categories:', 'wmd_multisitethememanager' ),
+		  	),
+		));
 	}
 
 	//Replaces themes page with custom (bit hacky so new theme page is first)
@@ -363,7 +381,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 	function admin_body_class($classes) {
 		global $pagenow;
 
-		if(!is_network_admin() && $pagenow == 'themes.php' && $_GET['page'] == 'multisite-theme-manager.php')
+		if(!is_network_admin() && $pagenow == 'themes.php' && isset($_GET['page']) && $_GET['page'] == 'multisite-theme-manager.php')
 			return ($classes) ? $classes.' themes-php' : 'themes-php';
 	}
 
@@ -382,6 +400,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			        	<p>'.__( 'Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_multisitethememanager').'</p>
 			        	<p>'.__( '<strong>Image URL</strong> - Set image for this theme. You can choose an image from your media gallery or upload it to "wp-content/uploads/multisite-theme-manager/screenshots/" and input file name as "Custom URL". Alternatively, a file with the correct name will be autoloaded even when this field is empty (example: theme location - "wp-content/themes/twentythirteen/", image file - "akismet.png". Only PNG files will work with this method.). "Auto load screenshot with correct name" setting needs to be set to true for it to work. Recommended dimensions are 880px on 660px.','wmd_multisitethememanager').'</p>
 			        	<p>'.__( '<strong>Categories</strong> - Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.','wmd_multisitethememanager').'</p>
+			        	<p>'.__( '<strong>Deprecation</strong> - Allows you to deprecate theme by configuring and enabling this option. Users will not be able to pick this theme anymore and after selected date will pass, all sites that are currently using this theme will be switched to default theme (deprecation warning will be shown to site admins before this happen).', 'wmd_multisitethememanager').'</p>
 			        	<p>'.__( '<strong>Description</strong> - Replace the original description of the theme with your own. Leave blank to use the original.','wmd_multisitethememanager').'</p>
 			        '
 		    	) 
@@ -399,6 +418,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			$tips->bind_tip(__('Create an external theme link to any URL of your choice, for support documentation for example.', 'wmd_multisitethememanager'), '#custom_url_tooltip');
 			$tips->bind_tip(__('Set label for custom url. Leave blank to use default label configured in Multisite Theme Manager settings page.', 'wmd_multisitethememanager'), '#custom_url_label_tooltip');
 			$tips->bind_tip(__('Set the featured image for this theme. Recommended dimensions are 880px on 660px. Use help tab (top right corner) to get info about advanced usage.', 'wmd_multisitethememanager'), '#image_url_tooltip');
+			$tips->bind_tip(__('Allows you to deprecate theme by configuring and enabling this option. Users will not be able to pick this theme anymore and after selected date will pass, all sites that are currently using this theme will be switched to default theme  (deprecation warning will be shown to site admins before this happen).', 'wmd_multisitethememanager'), '#deprecate_tooltip');
 			$tips->bind_tip(__('Allows you to set categories that the theme will be assigned to. Unused categories will be automatically deleted.', 'wmd_multisitethememanager'), '#categories_tooltip');
 			$tips->bind_tip(__('Replace the original description of the theme with your own. Leave blank to use the original.', 'wmd_multisitethememanager'), '#description_tooltip');
 		}
@@ -425,12 +445,19 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 	function network_admin_theme_action_links($actions, $theme_file, $theme_data) {
 		if(is_network_admin()) {
+			$deprecated_block = apply_filters('wmd_prettythemes_deprecate_block' , false);
+
+			if($deprecated_block && $this->get_deprecation_date($theme_file->get_stylesheet())) {
+				$actions = array('blocked' => __( 'This theme has been deprecated.', 'wmd_multisitethememanager' ));
+			}
+			else {
 			//adds "edit details" link
 			array_splice($actions, 1, 0, '<a href="#'.$theme_file->stylesheet.'" title="'.__('Edit theme details like title, discription, image and categories', 'wmd_multisitethememanager').'" class="edit_details">'.__('Edit Details', 'wmd_multisitethememanager').'</a>');
 
 			//changes "edit" link to "edit code" for clarity
 			if(isset($actions['edit']))
 				$actions['edit'] = str_replace(__('Edit'), __( 'Edit Code', 'wmd_multisitethememanager' ), $actions['edit']);
+			}
 
 			return $actions;
 		}
@@ -550,6 +577,12 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			if(is_numeric($_POST['theme_image_id']))
 				$_POST['theme_image_url'] = $this->get_resized_attachment_url( $_POST['theme_image_id'] );
 
+			if(isset($_POST['theme_deprecate_on_off']) && $_POST['theme_deprecate_on_off'])
+				$_POST['theme_deprecate_date'] = strtotime($_POST['theme_deprecate_date']);
+			else
+				$_POST['theme_deprecate_date'] = false;
+
+
 			foreach($_POST['theme_categories'] as $key => $category)
 				if(strpos($category, 'config') !== false)
 					unset($_POST['theme_categories'][$key]);
@@ -557,17 +590,20 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 			if(!isset($this->themes_custom_data[$_POST['theme_path']]))
 				$this->themes_custom_data[$_POST['theme_path']] = array();
 
+			$allow_empty = array('deprecateDate');
+
 			$data = array(
 				'Categories' => $_POST['theme_categories'],
 				'ScreenShot' => $_POST['theme_image_url'],
 				'ScreenShotID' => $_POST['theme_image_id'],
+				'deprecateDate' => $_POST['theme_deprecate_date'],
 				'CustomLink' => $_POST['theme_custom_url'],
 				'CustomLinkLabel' => $_POST['theme_custom_url_label'],
 				'Description' => $_POST['theme_description'],
 				'Name' => $_POST['theme_name'],
 			);
 			foreach ($data as $name => $value)
-				if(!empty($data[$name]))
+				if(!empty($data[$name]) || in_array($name, $allow_empty))
 					$this->themes_custom_data[$_POST['theme_path']][$name] = $value;
 				else
 					unset($this->themes_custom_data[$_POST['theme_path']][$name]);
@@ -643,26 +679,37 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 			foreach ( (array) $submenu['themes.php'] as $item) {
 				$class = '';
-				if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] || 'customize.php' == $item[2] || 'multisite-theme-manager.php' == $item[2] )
+				if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] || 0 === strpos( $item[2], 'customize.php' ) )
 					continue;
 				// 0 = name, 1 = capability, 2 = file
 				if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) )
-					$class = ' class="current"';
+					$class = ' current';
 				if ( !empty($submenu[$item[2]]) ) {
 					$submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
 					$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 					if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-						$current_theme_actions[] = "<a class='button button-secondary' href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+						$current_theme_actions[] = "<a class='button button-secondary$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
 					else
-						$current_theme_actions[] = "<a class='button button-secondary' href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
-				} else if ( current_user_can($item[1]) ) {
+						$current_theme_actions[] = "<a class='button button-secondary$class' href='{$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
+				} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 					$menu_file = $item[2];
-					if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
+
+					if ( current_user_can( 'customize' ) ) {
+						if ( 'custom-header' === $menu_file ) {
+							$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=header_image'>{$item[0]}</a>";
+						} elseif ( 'custom-background' === $menu_file ) {
+							$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=background_image'>{$item[0]}</a>";
+						}
+					}
+
+					if ( false !== ( $pos = strpos( $menu_file, '?' ) ) ) {
 						$menu_file = substr( $menu_file, 0, $pos );
+					}
+
 					if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
-						$current_theme_actions[] = "<a class='button button-secondary' href='{$item[2]}'$class>{$item[0]}</a>";
+						$current_theme_actions[] = "<a class='button button-secondary$class' href='{$item[2]}'>{$item[0]}</a>";
 					} else {
-						$current_theme_actions[] = "<a class='button button-secondary' href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
+						$current_theme_actions[] = "<a class='button button-secondary$class' href='themes.php?page={$item[2]}'>{$item[0]}</a>";
 					}
 				}
 			}
@@ -674,3 +721,6 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 global $wmd_prettythemes;
 $wmd_prettythemes = new WMD_PrettyThemes;
+
+
+include_once(PRETTYTHEMES_PLUGIN_DIR.'multisite-theme-manager-files/includes/frontend-showcase.php');

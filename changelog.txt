@@ -4,6 +4,15 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.1 =
+* Design improvements
+* Fixed hooking up to customizer in WP 4.2
+
+= 1.1 =
+* added theme deprecation system to smoothly delete themes from network
+* added frontend theme showcase through shortcode (beta): [wmd-theme-showcase preview_site_id="{required - id of site used to live preview themes}" category="{optional - default theme category to display}"]
+* fixed double "customize" button
+
 = 1.0.0.5 =
 * fixed missing translation
 * fixed XSS security issue

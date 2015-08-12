@@ -40,6 +40,42 @@
 						<a class="theme_image_edit_button button" href="#" target="_blank"><?php _e('Edit Image', 'wmd_multisitethememanager');?></a>
 					</span>
 				</label>
+				<?php if(!apply_filters('wmd_prettythemes_deprecate_block' , false)) { ?>
+					<label>
+						<span class="title" id="deprecate_tooltip"><?php _e('Deprecation', 'wmd_multisitethememanager');?></span>
+	                    <span class="input-text-wrap">
+		                    <div class="timestamp-wrap">
+		                        <?php
+		                        global $wp_locale;
+
+		                        $time_adj = current_time('timestamp');
+		                        $cur_jj = gmdate( 'd', $time_adj );
+		                        $cur_mm = gmdate( 'm', $time_adj );
+		                        $cur_aa = gmdate( 'Y', $time_adj );
+
+		                        $month = "";
+		                        for ( $i = 1; $i < 13; $i = $i +1 ) {
+		                            $monthnum = zeroise($i, 2);
+		                            $month .= "\t\t\t" . '<option value="' . $monthnum . '"';
+		                            if ( $i == $cur_mm )
+		                                $month .= ' selected="selected"';
+		                            /* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
+		                            $month .= '>' . sprintf( __( '%1$s-%2$s' ), $monthnum, $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) ) . "</option>\n";
+		                        }
+		                        ?>
+		                        <select class="theme_deprecate_mm" name="theme_deprecate_mm">
+		                            <?php echo $month; ?>
+		                        </select>
+		                        <input type="text" class="theme_deprecate_jj" name="theme_deprecate_jj" value="<?php echo $cur_jj; ?>" size="2" maxlength="2" autocomplete="off">,
+		                        <input type="text" class="theme_deprecate_aa" name="theme_deprecate_aa" value="<?php echo $cur_aa; ?>" size="4" maxlength="4" autocomplete="off">
+		                        <span class="theme_deprecate_on_off_holder"><label class="selectit"><input value="true" type="checkbox" class="theme_deprecate_on_off" name="theme_deprecate_on_off"> <?php _e('Enable deprecation', 'wmd_multisitethememanager');?></label></span>
+		                    </div>
+		                    <div class="default-theme">
+		                    	<?php _e('This theme is default. You can not deprecate it.', 'wmd_multisitethememanager');?>
+		                    </div>
+	                    </span>
+					</label>
+				<?php } ?>
 			</div>
 			</fieldset>
 

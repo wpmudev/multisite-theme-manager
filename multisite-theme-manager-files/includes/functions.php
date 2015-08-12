@@ -93,10 +93,10 @@ class WMD_PrettyThemes_Functions {
 		elseif(empty($screenshot_value) && $this->options['themes_auto_screenshots_by_name'] && file_exists($this->plugin_dir_custom.'screenshots/'.$theme_path_slug.'.png'))
 			$screenshot_value = $this->plugin_dir_url_custom.'multisite-theme-manager-files/screenshots/'.$theme_path_slug.'.png';
 
-    	return (is_ssl()) ? str_replace('http://', 'https://', $screenshot_value) : $screenshot_value;
+    	return (is_ssl()) ? str_replace('http://', 'https://', $screenshot_value) : str_replace('https://', 'http://', $screenshot_value);
     }
 
-	function get_merged_themes_categories() {
+	function get_merged_themes_categories($themes = false) {
 		if(!isset($this->themes_categories_config) || !is_array($this->themes_categories_config))
 			$this->themes_categories_config = array();
 		if(!isset($this->themes_categories) || !is_array($this->themes_categories))
@@ -111,14 +111,30 @@ class WMD_PrettyThemes_Functions {
 		$categories = array_merge($unique_config_categories, $this->themes_categories);
 		asort($categories);
 
+		//lets remove cats that are not assigned to any theme
+		if($themes) {
+			foreach ($categories as $category_key => $category_name) {
+				$category_valid = false;
+				foreach ($themes as $theme_path => $theme_details) {
+					if(isset($theme_details['categories_keys']) && is_array($theme_details['categories_keys']) && in_array($category_key, $theme_details['categories_keys'])) {
+						$category_valid = true;
+						break;
+					}
+				}
+
+				if(!$category_valid)
+					unset($categories[$category_key]);
+			}
+		}
+
 		return $categories;
 	}
 
 	function get_merged_themes_custom_data() {
 		if(!isset($this->themes_custom_data_config) || !is_array($this->themes_custom_data_config))
-			$this->themes_custom_data_config = array();
+			$this->themes_custom_data_config = get_site_option('wmd_prettythemes_themes_custom_data_config', array());
 		if(!isset($this->themes_custom_data) || !is_array($this->themes_custom_data))
-			$this->themes_custom_data = array();
+			$this->themes_custom_data = get_site_option('wmd_prettythemes_themes_custom_data', array());
 
 		$themes = array_replace_recursive($this->themes_custom_data_config, $this->themes_custom_data);
 
@@ -180,21 +196,32 @@ class WMD_PrettyThemes_Functions {
 		$themes_custom_data_ready = array();
 		foreach ($themes_custom_data_source as $path => $details) {
 			$possible_data = array('Name', 'Description', 'Categories', 'CustomLink', 'CustomLinkLabel', 'ScreenShot', 'ScreenShotID');
-			foreach ($possible_data as $possible_data_name)
+			$strip_slashes = array('Name', 'Description', 'CustomLinkLabel');
+			foreach ($possible_data as $possible_data_name) {
+				if(in_array($possible_data_name, $strip_slashes))
+					$details[$possible_data_name] = stripslashes($details[$possible_data_name]);
+
 				$details[$possible_data_name] = (isset($details[$possible_data_name]) && !empty($details[$possible_data_name])) ? $details[$possible_data_name] : null;
+			}
 
 			$details['ScreenShotPreview'] = $this->get_screenshot_url($details['ScreenShot'], $path);
 
+			$details['deprecateDate'] = (isset($details['deprecateDate']) && $details['deprecateDate']) ? $details['deprecateDate'] : null;
+
 			$themes_custom_data_ready[$path] = array(
 					'path' => $path,
-					'name' => stripslashes($details['Name']),
-					'description' => stripslashes($details['Description']),
+					'name' => $details['Name'],
+					'description' => $details['Description'],
 					'categories' => $details['Categories'],
 					'custom_url' => $details['CustomLink'],
-					'custom_url_label' => stripslashes($details['CustomLinkLabel']),
+					'custom_url_label' => $details['CustomLinkLabel'],
 					'image_url' => $details['ScreenShot'],
 					'image_url_preview' => $details['ScreenShotPreview'],
-					'image_id' => $details['ScreenShotID']
+					'image_id' => $details['ScreenShotID'],
+					'deprecate_on_off' => $details['deprecateDate'],
+					'deprecate_jj' => $details['deprecateDate'] ? date('d', $details['deprecateDate']) : null,
+					'deprecate_mm' => $details['deprecateDate'] ? date('m', $details['deprecateDate']) : null,
+					'deprecate_aa' => $details['deprecateDate'] ? date('Y', $details['deprecateDate']) : null
 				);
 		}
 
@@ -207,10 +234,15 @@ class WMD_PrettyThemes_Functions {
 		$themes_default_data = $this->themes_data;
 		$themes_custom_data = $this->get_merged_themes_custom_data();
 
-		$themes_orginal = array_replace_recursive($themes_default_data, $themes_custom_data);
-		
 		$themes = array();
 		foreach($themes_default_data as $key => $theme) {
+			if(!isset($theme['id']))
+				continue;
+
+			//lets skip this theme if it is deprecated
+			if(isset($themes_custom_data[$theme['id']]['deprecateDate']) && $themes_custom_data[$theme['id']]['deprecateDate'])
+				continue;
+
 			//first lets do stuff independend from custom data
 
 			$theme['version'] = $this->options['themes_options']['version'] ? $theme['version'] : false;
@@ -224,7 +256,7 @@ class WMD_PrettyThemes_Functions {
 			$theme['authorAndUri'] = str_replace('<a href=', '<a'.$target.' href=', $theme['authorAndUri']);
 
 			if(!isset($themes_custom_data[$theme['id']])) {
-				$themes[$key] = $theme;
+				$themes[$key] = apply_filters('wmd_prettythemes_merged_theme_data', $theme);
 				continue;
 			}
 
@@ -264,7 +296,7 @@ class WMD_PrettyThemes_Functions {
 				}
 			}
 
-			$themes[$key] = $theme;
+			$themes[$key] = apply_filters('wmd_prettythemes_merged_theme_data', $theme);
 		}
 
 		//sort and recreate keys
@@ -274,12 +306,80 @@ class WMD_PrettyThemes_Functions {
 		return $themes;
 	}
 
+	//theme deprecation
+
+	function get_deprecation_date($stylesheet = false) {
+		if(!$stylesheet) 
+			$stylesheet = get_stylesheet();
+		$themes = $this->get_merged_themes_custom_data();
+
+		return (isset($themes[$stylesheet]['deprecateDate']) && $themes[$stylesheet]['deprecateDate']) ? $themes[$stylesheet]['deprecateDate'] : false;
+	} 
+
+	function deprecate_engine() {
+		global $mtm_current_theme_expire_status;
+		
+		$current_stylesheet = get_stylesheet();
+
+		$mtm_current_theme_expire_status = $this->get_deprecation_date($current_stylesheet);
+
+		if($mtm_current_theme_expire_status) {
+			if(is_numeric($mtm_current_theme_expire_status) && $mtm_current_theme_expire_status < time()) {
+				//get default theme
+				$default_theme = get_site_option('default_theme', 0);
+				if(!$default_theme)
+					$default_theme = (defined('WP_DEFAULT_THEME')) ? WP_DEFAULT_THEME : 0;
+				
+				//make sure that deprecated theme is not default theme
+				if($default_theme != $current_stylesheet) {
+					$default_theme = wp_get_theme($default_theme);
+					switch_theme(esc_html($default_theme->template), esc_html($default_theme->stylesheet));
+
+					/*
+					//lets network deactivate this theme so it wont be used again - its not needed anymore since we are blocking it with the plugin anyway
+					$network_allowed_themes = get_site_option('allowedthemes');
+					if(isset($network_allowed_themes[$current_theme->stylesheet])) {
+						unset($network_allowed_themes[$current_theme->stylesheet]);
+						update_site_option('allowedthemes', $network_allowed_themes);
+					}
+					*/
+
+					wp_redirect($_SERVER['REQUEST_URI']);
+					exit();
+				}
+			}
+			else
+				add_action('admin_notices', array($this, 'theme_deprecated_warning'), $count);
+		}
+	}
+
+	function theme_deprecated_warning() {
+		global $mtm_current_theme_expire_status, $pagenow;
+
+		$seconds_left = $mtm_current_theme_expire_status - time();
+
+		$time_left = floor($seconds_left/86400);
+		if($time_left <= 1) {
+			$time_left = floor($seconds_left/3600);
+			$type = 'hours';
+		}
+		else
+			$type = 'days';
+
+		$link_text = $pagenow != 'themes.php' ? ' <a href="'.admin_url('themes.php').'">'.__( 'here', 'theme-expire' ).'</a>' : '';
+    ?>
+	    <div class="error">
+	        <p><?php printf(__( 'The theme you are using is being retired and will be removed in %s %s. Please change to a newer theme%s.', 'theme-expire' ), $time_left, $type, $link_text); ?></p>
+	    </div>
+    <?php
+	}
+
 
 	//Actions
 
 
 	function import_xml_data_setting_file($file_path, $config = 0) {
-	    $xml = simplexml_load_string(str_replace("\n", "", file_get_contents($file_path) ));
+	    $xml = simplexml_load_string(str_replace(array("\n", "\r"), "", file_get_contents($file_path) ));
 	    $xml_json = json_encode($xml);
 	    $xml_import_data = json_decode($xml_json,TRUE);
 

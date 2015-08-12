@@ -7,11 +7,17 @@ table.plugins .theme-image {
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAALElEQVQYGWO8d+/efwYkoKioiMRjYGBC4WHhUK6A8T8QIJt8//59ZC493AAAQssKpBK4F5AAAAAASUVORK5CYII=');
 	background-position: center center;
 }
+.theme-deprecation-holder {
+	color: red;
+}
 .edit-category-save-button, .add-category-button {
 	margin: 0 0 0 5px !important;
 }
 .theme-new-edit-category {
 	width: 100%;
+}
+.inline-edit-col .theme-categories-checklist {
+	height: 188px;
 }
 .inline-edit-col label {
 	clear: both;
@@ -22,6 +28,19 @@ table.plugins .theme-image {
 .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 11em;
 }	
+.inline-edit-row .theme_deprecate_mm {
+	  vertical-align: top;
+}
+.inline-edit-row .input-text-wrap .timestamp-wrap input { 
+	width: auto;
+}
+.inline-edit-row .input-text-wrap .timestamp-wrap .theme_deprecate_on_off_holder {
+	display: inline-block;
+}
+.inline-edit-row .default-theme {
+	display: none;
+	line-height: 1.8em;
+}
 .setting-disabled {
 	cursor: default;
 }
@@ -32,7 +51,7 @@ table.plugins .theme-image {
 	background: #ededed;
 }
 .inline-edit-row fieldset label textarea.theme_description {
-	height: 6.5em;
+	height: 8.7em;
 }
 .inline-edit-row p.setup-mode-reminder {
 	text-align: right;
