@@ -161,8 +161,8 @@ themes.Collection = Backbone.Collection.extend({
       this.reset( themes.data.themes );
     }
 
-    // Trigger an 'update' event
-    this.trigger( 'update' );
+    // Trigger an 'themes:update' event
+    this.trigger( 'themes:update' );
   },
 
   // Controls viewing themes from category on the current theme collection
@@ -193,8 +193,8 @@ themes.Collection = Backbone.Collection.extend({
       this.reset( themes.data.themes );
     }
 
-    // Trigger an 'update' event
-    this.trigger( 'update' );
+    // Trigger an 'themes:update' event
+    this.trigger( 'themes:update' );
   },
 
   // Performs a search within the collection
@@ -325,13 +325,9 @@ themes.view.Themes = wp.Backbone.View.extend({
     // Set current view to [grid]
     this.setView( 'grid' );
 
-    // Move the active theme to the beginning of the collection
-    //self.currentTheme();
-
     // When the collection is updated by user input...
-    this.listenTo( self.collection, 'update', function() {
+    this.listenTo( self.collection, 'themes:update', function() {
       self.parent.page = 0;
-      //self.currentTheme();
       self.render( this );
     });
 
@@ -421,7 +417,7 @@ themes.view.Search = wp.Backbone.View.extend({
 
     // Update the URL hash
     if ( event.target.value ) {
-      themes.router.navigate( themes.router.baseUrl( '&search=' + event.target.value ), { replace: true } );
+      themes.router.navigate( themes.router.baseUrl( '?theme-search=' + event.target.value ), { replace: true } );
     } else {
       themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
     }
@@ -456,7 +452,7 @@ themes.view.Categories = wp.Backbone.View.extend({
     // Update the URL hash
     if ( event.target.dataset.category ) {
       this.collection.doCategory( event.target.dataset.category );
-      themes.router.navigate( themes.router.baseUrl( '?category=' + event.target.dataset.category ), { replace: true } );
+      themes.router.navigate( themes.router.baseUrl( '?theme-category=' + event.target.dataset.category ), { replace: true } );
     }
   }
 });
@@ -507,11 +503,11 @@ themes.Run = {
     }
 
     // Set the initial category
-    if ( 'undefined' !== typeof themes.data.settings.category && '' !== themes.data.settings.category ){
-      this.themes.doCategory( themes.data.settings.category );
-    }
     if( $('.wmd-themes-showcase').is("[data-category]") ){
       this.themes.doCategory( $('.wmd-themes-showcase').attr('data-category') );
+    }
+    if ( 'undefined' !== typeof themes.data.settings.category && '' !== themes.data.settings.category ){
+      this.themes.doCategory( themes.data.settings.category );
     }
 
     // Start the router if browser supports History API

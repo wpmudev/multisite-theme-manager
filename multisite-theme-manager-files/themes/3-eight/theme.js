@@ -161,8 +161,8 @@ themes.Collection = Backbone.Collection.extend({
       this.reset( themes.data.themes );
     }
 
-    // Trigger an 'update' event
-    this.trigger( 'update' );
+    // Trigger an 'themes:update' event
+    this.trigger( 'themes:update' );
   },
 
   // Controls viewing themes from category on the current theme collection
@@ -193,29 +193,34 @@ themes.Collection = Backbone.Collection.extend({
       this.reset( themes.data.themes );
     }
 
-    // Trigger an 'update' event
-    this.trigger( 'update' );
+    // Trigger an 'themes:update' event
+    this.trigger( 'themes:update' );
   },
 
   // Performs a search within the collection
   // @uses RegExp
   search: function( term ) {
-    var match, results, haystack;
+    var match, results, haystack, name, description, author;
 
     // Start with a full collection
     this.reset( themes.data.themes, { silent: true } );
 
-    // The RegExp object to match
-    //
+    // Escape the term string for RegExp meta characters
+    term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
+
     // Consider spaces as word delimiters and match the whole string
     // so matching terms can be combined
-    term = term.replace( ' ', ')(?=.*' );
+    term = term.replace( / /g, ')(?=.*' );
     match = new RegExp( '^(?=.*' + term + ').+', 'i' );
 
     // Find results
     // _.filter and .test
     results = this.filter( function( data ) {
-      haystack = _.union( data.get( 'name' ), data.get( 'id' ), data.get( 'description' ), data.get( 'author' ), data.get( 'tags' ) );
+      name        = data.get( 'name' ).replace( /(<([^>]+)>)/ig, '' );
+      description = data.get( 'description' ).replace( /(<([^>]+)>)/ig, '' );
+      author      = data.get( 'author' ).replace( /(<([^>]+)>)/ig, '' );
+
+      haystack = _.union( [ name, data.get( 'id' ), description, author, data.get( 'tags' ) ] );
 
       if ( match.test( data.get( 'author' ) ) && term.length > 2 ) {
         data.set( 'displayAuthor', true );
@@ -527,7 +532,7 @@ themes.view.Themes = wp.Backbone.View.extend({
     self.currentTheme();
 
     // When the collection is updated by user input...
-    this.listenTo( self.collection, 'update', function() {
+    this.listenTo( self.collection, 'themes:update', function() {
       self.parent.page = 0;
       self.currentTheme();
       self.render( this );
@@ -637,7 +642,6 @@ themes.view.Themes = wp.Backbone.View.extend({
       current;
 
     current = self.collection.findWhere({ active: true });
-
     // Move the active theme to the beginning of the collection
     if ( current ) {
       self.collection.remove( current );

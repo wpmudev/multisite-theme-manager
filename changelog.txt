@@ -4,6 +4,10 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.2 =
+* Improvements to frontend theme showcase filtering by url
+* Fixed compatibility with WP 4.5
+
 = 1.1.1 =
 * Design improvements
 * Fixed hooking up to customizer in WP 4.2

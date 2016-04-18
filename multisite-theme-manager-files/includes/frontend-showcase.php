@@ -42,7 +42,7 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 			add_filter('wmd_prettythemes_merged_theme_data', array($this, 'set_theme_data'));
 
 			wp_enqueue_style('wmd-prettythemes-fe-theme', $this->plugin->plugin_dir_url.'multisite-theme-manager-files/includes/frontend-showcase-files/style.css', array(), 4);
-			wp_enqueue_script('wmd-prettythemes-fe-theme', $this->plugin->plugin_dir_url.'multisite-theme-manager-files/includes/frontend-showcase-files/theme.js', array('jquery', 'backbone', 'wp-backbone'), 4);
+			wp_enqueue_script('wmd-prettythemes-fe-theme', $this->plugin->plugin_dir_url.'multisite-theme-manager-files/includes/frontend-showcase-files/theme.js', array('jquery', 'backbone', 'wp-backbone'), 5);
 			
 			if($atts['themes']) {
 				$themes_stylesheets = explode(',', str_replace(' ', '' , $atts['themes']));
@@ -52,7 +52,7 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 			}
 			if(!isset($themes) || !$themes)
 				$themes = false; 
-			$this->plugin->enqueue_theme_showcase_script_data('wmd-prettythemes-fe-theme', parse_url( get_permalink($post->ID), PHP_URL_PATH ), true, $themes);
+			$this->plugin->enqueue_theme_showcase_script_data('wmd-prettythemes-fe-theme', parse_url( get_permalink($post->ID), PHP_URL_PATH ), true, $themes, true);
 
 			ob_start();
 			include($this->plugin->plugin_dir.'multisite-theme-manager-files/includes/frontend-showcase-files/theme_list.php');
@@ -76,12 +76,14 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 		if(!$preview_blog_id)
 			$preview_blog_id = $this->preview_blog_id;
 
-		return wp_nonce_url(get_permalink($post->ID).'?wmd-fe-showcase-theme-preview='.$theme_id.'&wmd-fe-showcase-preview-blog-id='.$preview_blog_id, 'wmd_prettythemes_set_theme_preview_data');
+		$url = apply_filters('wmd_prettythemes_showcase_theme_site', get_permalink($post->ID));
+
+		return $url.'?wmd-fe-showcase-theme-preview='.$theme_id.'&wmd-fe-showcase-preview-blog-id='.$preview_blog_id;
 	}
 
 
 	function set_theme_preview_data() {
-		if ( isset($_GET['wmd-fe-showcase-theme-preview']) && $_GET['wmd-fe-showcase-theme-preview'] && isset($_GET['wmd-fe-showcase-preview-blog-id']) && is_numeric($_GET['wmd-fe-showcase-preview-blog-id']) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wmd_prettythemes_set_theme_preview_data' ) ) {
+		if ( isset($_GET['wmd-fe-showcase-theme-preview']) && $_GET['wmd-fe-showcase-theme-preview'] && isset($_GET['wmd-fe-showcase-preview-blog-id']) && is_numeric($_GET['wmd-fe-showcase-preview-blog-id']) ) {
 			$blog_url = get_site_url($_GET['wmd-fe-showcase-preview-blog-id']);
 			if($blog_url) {
 				setcookie( 'wmd-fe-showcase', json_encode(array('blog_id' => $_GET['wmd-fe-showcase-preview-blog-id'], 'theme' => esc_attr($_GET['wmd-fe-showcase-theme-preview']))), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN );			
@@ -110,8 +112,7 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 		if ( isset( $theme['Status'] ) && $theme['Status'] != 'publish' )
 			return $stylesheet;
 
-		//echo "theme<pre>"; print_r($theme); echo "</pre>";
-		//apply_filters( "theme_mod_{$name}", $default );
+		add_action('posts_selection', array($this, 'showcase_theme_tweaks'), 999);
 
 		return $theme['Stylesheet'];
 	}
@@ -143,6 +144,32 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 		} else {
 			return;
 		}
+	}
+
+	function showcase_theme_tweaks() {
+		$theme = $this->get_preview_theme_name();
+
+		do_action('wmd_prettythemes_showcase_theme_tweaks', $theme);
+
+		//some standard mods
+		$tweaks = apply_filters('wmd_prettythemes_showcase_theme_buildin_tweaks', array(
+			'remove_post_thumbnails' => array(),
+			'remove_post_thumbnails_single' => array()
+		));
+		if(
+			(isset($tweaks['remove_post_thumbnails']) && in_array($theme, $tweaks['remove_post_thumbnails'])) ||
+			(is_singular() && isset($tweaks['remove_post_thumbnails_single']) && in_array($theme, $tweaks['remove_post_thumbnails_single']))
+		) {
+			remove_theme_support( 'post-thumbnails' );
+			remove_post_type_support( 'post', 'thumbnail' );
+			add_filter('get_post_metadata', array($this, 'showcase_theme_tweaks_remove_featured_image'), 999, 4);
+		}
+	}
+	function showcase_theme_tweaks_remove_featured_image($value, $object_id, $meta_key, $single) {
+		if($meta_key == '_thumbnail_id')
+			return '';
+		else
+			return $value;
 	}
 }
 

@@ -254,11 +254,11 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 		//register scripts and styles for theme page
 		if( $hook == 'appearance_page_multisite-theme-manager' ) {
-			wp_register_style('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'style.css', array(), 3);
+			wp_register_style('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'style.css', array(), 4);
 			wp_enqueue_style('wmd-prettythemes-theme');
 
 
-			wp_register_script('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), 3, true);
+			wp_register_script('wmd-prettythemes-theme', $this->current_theme_details['dir_url'].'theme.js', array('jquery', 'backbone', 'wp-backbone'), 4, true);
 
 			wp_reset_vars( array( 'theme', 'search' ) );
 
@@ -317,7 +317,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		}
 	}
 
-	function enqueue_theme_showcase_script_data($script_name = 'wmd-prettythemes-theme', $root = 'admin', $force_all = false, $themes = false) {
+	function enqueue_theme_showcase_script_data($script_name = 'wmd-prettythemes-theme', $root = 'admin', $force_all = false, $themes = false, $fe = false) {
 		if(!function_exists('wp_prepare_themes_for_js'))
 			require_once(ABSPATH . '/wp-admin/includes/theme.php');
 
@@ -328,11 +328,11 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 		else
 			$this->themes_data = wp_prepare_themes_for_js( array( wp_get_theme() ) );
 
-		$this->themes_data = $this->get_merged_theme_data();
+		$this->themes_data = $this->get_merged_theme_data($fe);
 		$themes_categories = array_merge(array('all' => 'All'), $this->get_merged_themes_categories($this->themes_data));
 		$theme = isset($_GET['theme']) ? $_GET['theme'] : '';
-		$search = isset($_GET['search']) ? $_GET['search'] : '';
-		$category = isset($_GET['category']) ? $_GET['category'] : '';
+		$search = isset($_GET['search']) ? $_GET['search'] : (isset($_GET['theme-search']) ? $_GET['theme-search'] : '');
+		$category = isset($_GET['category']) ? $_GET['category'] : (isset($_GET['theme-category']) ? $_GET['theme-category'] : '');
 
 		wp_localize_script($script_name, '_wpThemeSettings', array(
 			'themes'   => $this->themes_data,
