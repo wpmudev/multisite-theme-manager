@@ -383,6 +383,8 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 		if(!is_network_admin() && $pagenow == 'themes.php' && isset($_GET['page']) && $_GET['page'] == 'multisite-theme-manager.php')
 			return ($classes) ? $classes.' themes-php' : 'themes-php';
+                    
+                return $classes;
 	}
 
 	function network_plugins_help($contextual_help, $screen_id) {
