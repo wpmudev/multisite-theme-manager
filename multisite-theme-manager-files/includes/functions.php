@@ -198,7 +198,7 @@ class WMD_PrettyThemes_Functions {
 			$possible_data = array('Name', 'Description', 'Categories', 'CustomLink', 'CustomLinkLabel', 'ScreenShot', 'ScreenShotID');
 			$strip_slashes = array('Name', 'Description', 'CustomLinkLabel');
 			foreach ($possible_data as $possible_data_name) {
-				if(in_array($possible_data_name, $strip_slashes))
+				if(in_array($possible_data_name, $strip_slashes) && isset($details[$possible_data_name]))
 					$details[$possible_data_name] = stripslashes($details[$possible_data_name]);
 
 				$details[$possible_data_name] = (isset($details[$possible_data_name]) && !empty($details[$possible_data_name])) ? $details[$possible_data_name] : null;

@@ -60,6 +60,9 @@ table.plugins .theme-image {
 	padding: 0.5em .5em 0 .5em;
 	margin: .5em 0 0;
 }
+.inline-edit-row fieldset .timestamp-wrap {
+	margin-left: 0px;
+}
 
 @media all and (max-width: 782px) {
 	#wpbody-content .wp-list-table.plugins th.column-description, #wpbody-content .wp-list-table.plugins th.column-image {

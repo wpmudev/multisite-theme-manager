@@ -382,7 +382,7 @@ function prettythemes_theme_add_data(theme_path) {
 		else
 			theme.description_column.find('.theme-custom-url-holder').remove();
 
-		if(theme_details.image_url_preview != null)
+		if(theme_details.image_url_preview != null && theme_details.image_url_preview)
 			theme.table.find('.theme-image')
 				.css('background-image', "url('"+theme_details.image_url_preview+"')")
 				.css('background-size', "100px auto")
