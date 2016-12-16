@@ -3,7 +3,7 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.1.3
+Version: 1.1.4
 Network: true
 Text Domain: wmd_multisitethememanager
 Author: WPMU DEV
@@ -312,7 +312,7 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 				$theme_path = get_stylesheet();
 
 			wp_register_script('wmd-prettythemes-customize', $this->plugin_dir_url.'multisite-theme-manager-files/js/customize.js', false, 4);
-			wp_enqueue_script('wmd-prettythemes-customize');
+				wp_enqueue_script('wmd-prettythemes-customize');
 			wp_localize_script( 'wmd-prettythemes-customize', 'prettythemes_customize', array('current_theme_path' => $theme_path, 'themes_custom_data' => $themes_custom_data_ready) );
 		}
 	}
@@ -383,8 +383,8 @@ class WMD_PrettyThemes extends WMD_PrettyThemes_Functions {
 
 		if(!is_network_admin() && $pagenow == 'themes.php' && isset($_GET['page']) && $_GET['page'] == 'multisite-theme-manager.php')
 			return ($classes) ? $classes.' themes-php' : 'themes-php';
-                    
-                return $classes;
+
+		return $classes;
 	}
 
 	function network_plugins_help($contextual_help, $screen_id) {

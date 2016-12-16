@@ -294,10 +294,10 @@ class WMD_PrettyThemes_Functions {
 						$theme_category_key = array_search($this->themes_categories_config[$theme_category_key], $this->themes_categories);
 
 					if(isset($themes_categories[$theme_category_key])) {
-						$categories[] = $themes_categories[$theme_category_key];
-						$categories_keys[] = $theme_category_key;
-						$theme['categories'] = implode(', ', $categories);
-						$theme['categories_keys'] = $categories_keys;
+					$categories[] = $themes_categories[$theme_category_key];
+					$categories_keys[] = $theme_category_key;
+					$theme['categories'] = implode(', ', $categories);
+					$theme['categories_keys'] = $categories_keys;
 					}
 				}
 			}

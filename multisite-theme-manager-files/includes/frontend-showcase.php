@@ -5,6 +5,11 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 
 	var $preview_blog_id;
 
+	var $default_stylesheet;
+	var $default_template;
+
+	var $preview_theme;
+
 	function __construct() {
 		global $wmd_prettythemes;
 		$this->plugin = $wmd_prettythemes;
@@ -12,8 +17,22 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 		add_shortcode('wmd-theme-showcase', array($this,'display_theme_showcase'));
 
 		add_action('init', array($this, 'set_theme_preview_data' ) );
-		add_filter('stylesheet', array($this, 'get_stylesheet'));
-		add_filter('template', array($this, 'get_template'));
+
+		if(!is_admin()) {
+			$this->default_stylesheet = get_option('stylesheet');
+			$this->default_template = get_option('template');
+
+			$preview_theme_name = $this->get_preview_theme_name();
+			if(!empty($preview_theme_name)) {
+				$this->preview_theme = wp_get_theme($this->get_preview_theme_name());
+				if(!empty($this->preview_theme) && isset($this->preview_theme['Status']) && $this->preview_theme['Status'] == 'publish' && $this->preview_theme['Stylesheet'] != $this->default_stylesheet) {
+					add_filter('pre_option_stylesheet', array($this, 'option_stylesheet'));
+					add_filter('pre_option_template', array($this, 'option_template'));
+
+					add_action('wp_loaded', array( $this, 'override_sidebars_widgets_for_theme_switch'));
+				}
+			}
+		}
 	}
 
 	function display_theme_showcase($atts) {
@@ -93,49 +112,11 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 			}
 		}
 	}
-	function get_stylesheet( $stylesheet ) {
-
-		if (is_admin())
-			return $stylesheet;
-		
-        /* Get theme name */
-		$theme = $this->get_preview_theme_name();
-		if ( empty( $theme ) )
-			return $stylesheet;
-		
-        /* Get theme by name */
-		$theme = wp_get_theme( $theme );
-        if ( empty( $theme ) )
-			return $stylesheet;
-		
-		/* Don't let people peek at unpublished themes. */
-		if ( isset( $theme['Status'] ) && $theme['Status'] != 'publish' )
-			return $stylesheet;
-
-		add_action('posts_selection', array($this, 'showcase_theme_tweaks'), 999);
-
-		return $theme['Stylesheet'];
+	function option_stylesheet( $stylesheet ) {
+		return $this->preview_theme['Stylesheet'];
 	}
-	function get_template( $template ) {
-
-		if (is_admin())
-			return $template;
-			
-        /* Get theme name */
-		$theme = $this->get_preview_theme_name();
-		if ( empty( $theme ) )
-			return $template;
-		
-        /* Get theme by name */
-		$theme = wp_get_theme( $theme );
-		if ( empty( $theme ) )
-			return $template;
-
-		/* Don't let people peek at unpublished themes. */
-		if ( isset($theme['Status'] ) && $theme['Status'] != 'publish' )
-			return $template;
-
-		return $theme['Template'];
+	function option_template( $template ) {		
+		return $this->preview_theme['Template'];
 	}
 	function get_preview_theme_name() {
 		if ( !empty( $_COOKIE[ 'wmd-fe-showcase' ] ) ) {
@@ -144,6 +125,21 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 		} else {
 			return;
 		}
+	}
+
+	function override_sidebars_widgets_for_theme_switch() {
+		global $sidebars_widgets;
+
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		$sidebars_widgets = retrieve_widgets('customize');
+
+		add_filter( 'option_sidebars_widgets', array( $this, 'filter_option_sidebars_widgets_for_theme_switch' ), 1 );
+		unset( $GLOBALS['_wp_sidebars_widgets'] );
+	}
+	function filter_option_sidebars_widgets_for_theme_switch($sidebars_widgets) {
+		$sidebars_widgets = $GLOBALS['sidebars_widgets'];
+		$sidebars_widgets['array_version'] = 3;
+		return $sidebars_widgets;
 	}
 
 	function showcase_theme_tweaks() {
@@ -174,4 +170,4 @@ class WMD_PrettyThemesFEShowcase extends WMD_PrettyThemes_Functions {
 }
 
 global $wmd_prettythemes_fe_showcase;
-$wmd_prettythemes = new WMD_PrettyThemesFEShowcase;
+$wmd_prettythemes_fe_showcase = new WMD_PrettyThemesFEShowcase;

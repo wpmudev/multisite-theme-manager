@@ -51,10 +51,6 @@ foreach ( $this->themes_data as $theme ) :
 	<?php } ?>
 
 	</div>
-
-	<?php if ( $theme['hasUpdate'] ) { ?>
-		<div class="theme-update"><?php _e( 'Update Available', 'wmd_multisitethememanager' ); ?></div>
-	<?php } ?>
 </div>
 <?php endforeach; ?>
 	<br class="clear" />
@@ -100,10 +96,6 @@ foreach ( $this->themes_data as $theme ) :
 	<# } #>
 
 	</div>
-
-	<# if ( data.hasUpdate ) { #>
-		<div class="theme-update"><?php _e( 'Update Available' ); ?></div>
-	<# } #>
 </script>
 
 <script id="tmpl-theme-single" type="text/template">

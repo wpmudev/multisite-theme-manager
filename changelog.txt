@@ -4,6 +4,10 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.4 =
+* Improved frontend themes showcase
+* Fixed small themes admin page issues
+
 = 1.1.3 =
 * Version bump
 
