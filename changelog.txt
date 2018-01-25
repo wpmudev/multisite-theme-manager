@@ -4,6 +4,9 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.5 =
+* Fixed compatibility with WP 4.9
+
 = 1.1.4 =
 * Improved frontend themes showcase
 * Fixed small themes admin page issues

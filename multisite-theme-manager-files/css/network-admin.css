@@ -41,6 +41,9 @@ table.plugins .theme-image {
 	display: none;
 	line-height: 1.8em;
 }
+.inline-edit-row fieldset .timestamp-wrap {
+	margin-left: 0px;
+}
 .setting-disabled {
 	cursor: default;
 }

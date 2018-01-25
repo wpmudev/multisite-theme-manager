@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	//this code is mostly for compatibility with < WP 4.2
+	//WP 4.2 <
 	if(typeof(prettythemes_customize.themes_custom_data[prettythemes_customize.current_theme_path]) != "undefined") {
 		var current_theme = prettythemes_customize.themes_custom_data[prettythemes_customize.current_theme_path];
 		if(current_theme.name != null) {
@@ -15,8 +15,10 @@ jQuery(document).ready(function() {
 			jQuery('#customize-info .theme-description').html(current_theme.description);
 	}
 
+	//WP 4.9 <
 	jQuery.each(prettythemes_customize.themes_custom_data, function(path, data) {
 		var theme_setting_slug = false;
+
 		if(typeof _wpCustomizeSettings['controls']['theme_'+path] != 'undefined')
 			theme_setting_slug = 'theme_'+path;
 		if(!theme_setting_slug && typeof _wpCustomizeSettings['controls'][path] != 'undefined')
@@ -36,4 +38,14 @@ jQuery(document).ready(function() {
 			}
 		}
 	});
+
+	//WP 4.9 >=
+	if(typeof _wpCustomizeSettings['panels']['themes'] != 'undefined') {
+		if(prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']]['name'] != null) {
+			_wpCustomizeSettings['panels']['themes'].title = prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']]['name'];
+		}
+
+		//Unfortunately we have to hide theme changing
+		jQuery('.change-theme').hide();
+	}
 });
