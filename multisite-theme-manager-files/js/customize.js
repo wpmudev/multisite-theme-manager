@@ -41,8 +41,11 @@ jQuery(document).ready(function() {
 
 	//WP 4.9 >=
 	if(typeof _wpCustomizeSettings['panels']['themes'] != 'undefined') {
-		if(prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']]['name'] != null) {
-			_wpCustomizeSettings['panels']['themes'].title = prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']]['name'];
+		if(typeof prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']] != 'undefined') {
+			var name = prettythemes_customize.themes_custom_data[_wpCustomizeSettings['theme']['stylesheet']]['name'];
+			if(name != null) {
+				_wpCustomizeSettings['panels']['themes'].title = name;
+			}
 		}
 
 		//Unfortunately we have to hide theme changing

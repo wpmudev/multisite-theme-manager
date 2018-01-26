@@ -3,7 +3,7 @@
 Plugin Name: Multisite Theme Manager
 Plugin URI: http://premium.wpmudev.org/multisite-theme-manager/
 Description: Take control of the theme admin page for your multisite network. Categorize your themes into groups, modify the name, description, and screenshot used for themes.
-Version: 1.1.5
+Version: 1.1.6
 Network: true
 Text Domain: wmd_multisitethememanager
 Author: WPMU DEV

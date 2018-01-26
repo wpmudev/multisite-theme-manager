@@ -4,6 +4,10 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.6 =
+* Fixed customizer JS bug
+* Improved compatibility with WP 4.9
+
 = 1.1.5 =
 * Fixed compatibility with WP 4.9
 

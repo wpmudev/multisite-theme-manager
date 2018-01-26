@@ -1,6 +1,4 @@
 <div class="wrap">
-
-	<?php screen_icon('tools'); ?>
 	<h2><?php _e('Multisite Theme Manager Settings', 'wmd_multisitethememanager') ?></h2>
 	<p class="configuration-steps">
 		<img src="<?php echo $this->plugin_dir_url.'multisite-theme-manager-files/images/configuration-tips.jpg'; ?>" alt="<?php echo esc_attr(__('This page lets you control Multisite Theme Manager. You can modify the details for every theme in your network by clicking Edit Details for each theme in Network Admin > Themes > Installed Themes. Go to Main Site Dashboard > Appearance > '.$this->options['themes_page_title'].' to see how it currently looks like on the main site.', 'wmd_multisitethememanager')) ?>"/>

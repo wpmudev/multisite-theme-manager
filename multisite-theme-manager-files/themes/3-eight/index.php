@@ -77,24 +77,26 @@ foreach ( $this->themes_data as $theme ) :
 		<div class="theme-author"><?php printf( __( '%s', 'wmd_multisitethememanager' ), '{{{ data.author }}}' ); ?></div>
 	<# } #>
 
-	<# if ( data.active ) { #>
-		<h3 class="theme-name" id="{{ data.id }}-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
-	<# } else { #>
-		<h3 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h3>
-	<# } #>
-
-	<div class="theme-actions">
-
-	<# if ( data.active ) { #>
-		<# if ( data.actions.customize ) { #>
-			<a class="button button-primary customize load-customize hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize', 'wmd_multisitethememanager' ); ?></a>
+	<div class="theme-id-container">
+		<# if ( data.active ) { #>
+			<h3 class="theme-name" id="{{ data.id }}-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
+		<# } else { #>
+			<h3 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h3>
 		<# } #>
-	<# } else { #>
-		<a class="button button-primary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
-		<a class="button button-secondary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview', 'wmd_multisitethememanager' ); ?></a>
-		<a class="button button-secondary hide-if-customize" href="{{{ data.actions.preview }}}"><?php _e( 'Preview', 'wmd_multisitethememanager' ); ?></a>
-	<# } #>
 
+		<div class="theme-actions">
+
+		<# if ( data.active ) { #>
+			<# if ( data.actions.customize ) { #>
+				<a class="button button-primary customize load-customize hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize', 'wmd_multisitethememanager' ); ?></a>
+			<# } #>
+		<# } else { #>
+			<a class="button button-primary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
+			<a class="button button-secondary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview', 'wmd_multisitethememanager' ); ?></a>
+			<a class="button button-secondary hide-if-customize" href="{{{ data.actions.preview }}}"><?php _e( 'Preview', 'wmd_multisitethememanager' ); ?></a>
+		<# } #>
+
+		</div>
 	</div>
 </script>
 
