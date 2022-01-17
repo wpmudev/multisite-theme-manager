@@ -62,7 +62,7 @@ You’ll never get lost with our easy-to-follow configuration tips. After you in
 
 ### To Get Started:
 
-Start by reading the [Installing Plugins](https://premium.wpmudev.org/wpmu-manual/installing-regular-plugins-on-wpmu/) section in our comprehensive [WordPress and WordPress Multisite Manual](https://premium.wpmudev.org/wpmu-manual/) if you are new to WordPress. Once installed and network-activated, you'll find a new menu item in your network admin under Settings > Multisite Theme Manager. 
+Start by reading the [Installing Plugins](https://wpmudev.com/docs/using-wordpress/installing-wordpress-plugins/) section in our comprehensive [WordPress and WordPress Multisite Manual](https://premium.wpmudev.org/wpmu-manual/) if you are new to WordPress. Once installed and network-activated, you'll find a new menu item in your network admin under Settings > Multisite Theme Manager. 
 
 ![Multisite Theme Manager Network](https://premium.wpmudev.org/wp-content/uploads/2014/04/multisite-theme-manager-1000-menu-network1.png)
 
